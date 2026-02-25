@@ -1,0 +1,2 @@
+[console_scripts]
+sqlalembic = sqlalembic.main:main

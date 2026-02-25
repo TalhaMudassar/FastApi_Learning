@@ -1,0 +1,36 @@
+SqlAlembic project created with the SqlAlembic Framework.
+
+## Getting Started
+
+1. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. Configure your database in `.env` file
+
+3. Create your first migration:
+   ```bash
+   python manage.py makemigrations "Initial migration"
+   ```
+
+4. Apply migrations:
+   ```bash
+   python manage.py migrate
+   ```
+
+## Project Structure
+
+- `alembic/` - Migration files and configuration
+- `models/` - Database models
+- `manage.py` - Main management script
+- `.env` - Environment configuration
+
+## Available Commands
+
+- `python manage.py makemigrations` - Create migrations
+- `python manage.py migrate` - Apply migrations
+- `python manage.py status` - Show migration status
+- `python manage.py history` - Show migration history
+
+For more commands, run: `python manage.py --help`

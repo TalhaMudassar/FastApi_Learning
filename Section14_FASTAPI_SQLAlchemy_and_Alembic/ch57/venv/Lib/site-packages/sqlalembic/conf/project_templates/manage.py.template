@@ -1,0 +1,534 @@
+import argparse
+import sys
+import logging
+from typing import Any, Dict, Optional
+
+logger = logging.getLogger(__name__)
+
+from sqlalembic.core.migration import MigrationCommands
+from sqlalembic.core.initialize_core import initialize_core_components
+
+
+class SqlAlembicCLI:
+    """
+    Enhanced CLI interface for SqlAlembic Framework with comprehensive migration support.
+    """
+    
+    def __init__(self):
+        self.dependencies = None
+        self.command_handler = None
+        self.dispatcher = None
+        
+    def initialize_components(self):
+        """Initialize core components."""
+        try:
+            self.dependencies = initialize_core_components()
+            self.dispatcher = self.dependencies["dispatcher"]
+            self.command_handler = MigrationCommands(self.dependencies)
+            logger.info("Core components initialized successfully.")
+            return True
+        except Exception as e:
+            print(f"Error: Failed to initialize core components. Details: {e}", file=sys.stderr)
+            return False
+
+    def create_parser(self) -> argparse.ArgumentParser:
+        """Create the main argument parser with all commands."""
+        parser = argparse.ArgumentParser(
+            description="SqlAlembic Framework - Comprehensive Database Migration Management",
+            formatter_class=argparse.RawDescriptionHelpFormatter,
+            epilog="""
+Examples:
+  %(prog)s makemigrations "Add user table"
+  %(prog)s migrate
+  %(prog)s rollback -1
+  %(prog)s status
+  %(prog)s history --verbose
+  %(prog)s fresh --confirm
+            """
+        )
+        
+        subparsers = parser.add_subparsers(dest="command", required=True, help="Available commands")
+        
+        # ======================================================================
+        # Core Migration Commands
+        # ======================================================================
+        
+        # makemigrations command
+        makemigrations_parser = subparsers.add_parser(
+            "makemigrations", 
+            help="Create new migration files",
+            description="Generate migration scripts based on model changes"
+        )
+        makemigrations_parser.add_argument(
+            "message", 
+            nargs="?", 
+            default="auto", 
+            help="Migration message/description"
+        )
+        makemigrations_parser.add_argument(
+            "--empty", 
+            action="store_true", 
+            help="Create empty migration file"
+        )
+        makemigrations_parser.add_argument(
+            "--sql", 
+            action="store_true", 
+            help="Generate SQL mode migration"
+        )
+        makemigrations_parser.add_argument(
+            "--head", 
+            help="Specify head revision to use"
+        )
+        makemigrations_parser.add_argument(
+            "--splice", 
+            action="store_true", 
+            help="Allow branch creation"
+        )
+        makemigrations_parser.add_argument(
+            "--branch-label", 
+            help="Branch label for new branch"
+        )
+        makemigrations_parser.add_argument(
+            "--version-path", 
+            help="Version path for migration file"
+        )
+        makemigrations_parser.add_argument(
+            "--rev-id", 
+            help="Custom revision ID"
+        )
+        
+        # migrate command
+        migrate_parser = subparsers.add_parser(
+            "migrate", 
+            help="Apply database migrations",
+            description="Apply pending migrations to bring database up to date"
+        )
+        migrate_parser.add_argument(
+            "version", 
+            nargs="?", 
+            default="head", 
+            help="Target version (head, version hash, +2, -1, etc.)"
+        )
+        migrate_parser.add_argument(
+            "--sql", 
+            action="store_true", 
+            help="Generate SQL instead of executing"
+        )
+        migrate_parser.add_argument(
+            "--tag", 
+            help="Arbitrary tag to apply"
+        )
+        
+        # rollback command
+        rollback_parser = subparsers.add_parser(
+            "rollback", 
+            help="Rollback database migrations",
+            description="Rollback migrations to a previous state"
+        )
+        rollback_parser.add_argument(
+            "version", 
+            nargs="?", 
+            default="-1", 
+            help="Target version to rollback to (default: -1)"
+        )
+        rollback_parser.add_argument(
+            "--sql", 
+            action="store_true", 
+            help="Generate SQL instead of executing"
+        )
+        rollback_parser.add_argument(
+            "--tag", 
+            help="Arbitrary tag to apply"
+        )
+        
+        # ======================================================================
+        # Information & Status Commands
+        # ======================================================================
+        
+        # status command
+        subparsers.add_parser(
+            "status", 
+            help="Show comprehensive migration status",
+            description="Display current migration state and pending changes"
+        )
+        
+        # current command
+        current_parser = subparsers.add_parser(
+            "current", 
+            help="Show current migration revision",
+            description="Display the current migration revision"
+        )
+        current_parser.add_argument(
+            "--verbose", 
+            action="store_true", 
+            help="Show detailed information"
+        )
+        
+        # history command
+        history_parser = subparsers.add_parser(
+            "history", 
+            help="Show migration history",
+            description="Display migration history and timeline"
+        )
+        history_parser.add_argument(
+            "--range", 
+            help="Range of revisions (e.g., 'base:head')"
+        )
+        history_parser.add_argument(
+            "--verbose", 
+            action="store_true", 
+            help="Show detailed information"
+        )
+        history_parser.add_argument(
+            "--indicate-current", 
+            action="store_true", 
+            default=True,
+            help="Indicate current revision"
+        )
+        
+        # show command
+        show_parser = subparsers.add_parser(
+            "show", 
+            help="Show details of a specific revision",
+            description="Display detailed information about a migration revision"
+        )
+        show_parser.add_argument(
+            "revision", 
+            help="Revision to show details for"
+        )
+        
+        # heads command
+        heads_parser = subparsers.add_parser(
+            "heads", 
+            help="Show current migration heads",
+            description="Display current heads in the migration tree"
+        )
+        heads_parser.add_argument(
+            "--verbose", 
+            action="store_true", 
+            help="Show detailed information"
+        )
+        heads_parser.add_argument(
+            "--resolve-dependencies", 
+            action="store_true", 
+            help="Resolve dependencies"
+        )
+        
+        # branches command
+        branches_parser = subparsers.add_parser(
+            "branches", 
+            help="Show migration branches",
+            description="Display current branches in the migration tree"
+        )
+        branches_parser.add_argument(
+            "--verbose", 
+            action="store_true", 
+            help="Show detailed information"
+        )
+        
+        # list command
+        list_parser = subparsers.add_parser(
+            "list", 
+            help="List all migrations",
+            description="List all available migrations with details"
+        )
+        list_parser.add_argument(
+            "--pending-only", 
+            action="store_true", 
+            help="Show only pending migrations"
+        )
+        list_parser.add_argument(
+            "--applied-only", 
+            action="store_true", 
+            help="Show only applied migrations"
+        )
+        
+        # ======================================================================
+        # Advanced Operations
+        # ======================================================================
+        
+        # stamp command
+        stamp_parser = subparsers.add_parser(
+            "stamp", 
+            help="Stamp database with specific revision",
+            description="Mark database as being at a specific revision without running migrations"
+        )
+        stamp_parser.add_argument(
+            "revision", 
+            help="Revision to stamp"
+        )
+        stamp_parser.add_argument(
+            "--sql", 
+            action="store_true", 
+            help="Generate SQL instead of executing"
+        )
+        stamp_parser.add_argument(
+            "--tag", 
+            help="Arbitrary tag to apply"
+        )
+        
+        # merge command
+        merge_parser = subparsers.add_parser(
+            "merge", 
+            help="Merge multiple revision heads",
+            description="Merge multiple migration heads into a single head"
+        )
+        merge_parser.add_argument(
+            "revisions", 
+            nargs="+", 
+            help="Revisions to merge"
+        )
+        merge_parser.add_argument(
+            "--message", 
+            help="Merge message"
+        )
+        merge_parser.add_argument(
+            "--branch-label", 
+            help="Branch label"
+        )
+        merge_parser.add_argument(
+            "--rev-id", 
+            help="Custom revision ID"
+        )
+        
+        # check command
+        subparsers.add_parser(
+            "check", 
+            help="Check for pending migrations",
+            description="Check if there are pending migrations to apply"
+        )
+        
+        # validate command
+        subparsers.add_parser(
+            "validate", 
+            help="Validate current migration state",
+            description="Validate the current migration state and check for issues"
+        )
+        
+        # ======================================================================
+        # Utility Operations
+        # ======================================================================
+        
+        # reset command
+        reset_parser = subparsers.add_parser(
+            "reset", 
+            help="Reset database to base state",
+            description="Rollback all migrations to base state"
+        )
+        reset_parser.add_argument(
+            "--confirm", 
+            action="store_true", 
+            help="Skip confirmation prompt"
+        )
+        
+        # fresh command
+        fresh_parser = subparsers.add_parser(
+            "fresh", 
+            help="Fresh migration (reset + migrate all)",
+            description="Reset database and re-apply all migrations from scratch"
+        )
+        fresh_parser.add_argument(
+            "--confirm", 
+            action="store_true", 
+            help="Skip confirmation prompt"
+        )
+        
+        # clean command
+        clean_parser = subparsers.add_parser(
+            "clean", 
+            help="Clean migration cache and bytecode",
+            description="Clean up migration cache files and bytecode"
+        )
+        clean_parser.add_argument(
+            "--confirm", 
+            action="store_true", 
+            help="Skip confirmation prompt"
+        )
+        clean_parser.add_argument(
+            "--cache-only", 
+            action="store_true", 
+            help="Only clean cache, not migration files"
+        )
+        
+        return parser
+
+    def execute_command(self, args: argparse.Namespace) -> bool:
+        """Execute the specified command with proper error handling."""
+        command_name = args.command
+        command_successful = False
+        
+        try:
+            # Convert args to kwargs for command methods
+            kwargs = {k: v for k, v in vars(args).items() if k != 'command' and v is not None}
+            
+            # Execute command based on command name
+            if command_name == "makemigrations":
+                message = kwargs.pop('message', 'auto')
+                command_successful = self.command_handler.makemigrations(message, **kwargs)
+                
+            elif command_name == "migrate":
+                version = kwargs.pop('version', 'head')
+                command_successful = self.command_handler.migrate(version, **kwargs)
+                
+            elif command_name == "rollback":
+                version = kwargs.pop('version', '-1')
+                command_successful = self.command_handler.rollback(version, **kwargs)
+                
+            elif command_name == "status":
+                command_successful = self.command_handler.status()
+                
+            elif command_name == "current":
+                command_successful = self.command_handler.current(**kwargs)
+                
+            elif command_name == "history":
+                command_successful = self.command_handler.history(**kwargs)
+                
+            elif command_name == "show":
+                revision = kwargs.pop('revision')
+                command_successful = self.command_handler.show(revision, **kwargs)
+                
+            elif command_name == "heads":
+                command_successful = self.command_handler.heads(**kwargs)
+                
+            elif command_name == "branches":
+                command_successful = self.command_handler.branches(**kwargs)
+                
+            elif command_name == "list":
+                command_successful = self.command_handler.list_migrations(**kwargs)
+                
+            elif command_name == "stamp":
+                revision = kwargs.pop('revision')
+                command_successful = self.command_handler.stamp(revision, **kwargs)
+                
+            elif command_name == "merge":
+                revisions = kwargs.pop('revisions')
+                command_successful = self.command_handler.merge(*revisions, **kwargs)
+                
+            elif command_name == "check":
+                command_successful = self.command_handler.check()
+                
+            elif command_name == "validate":
+                command_successful = self.command_handler.validate()
+                
+            elif command_name == "reset":
+                command_successful = self.command_handler.reset(**kwargs)
+                
+            elif command_name == "fresh":
+                command_successful = self.command_handler.fresh(**kwargs)
+                
+            elif command_name == "clean":
+                command_successful = self.command_handler.clean(**kwargs)
+                
+            else:
+                print(f"Unknown command: {command_name}", file=sys.stderr)
+                return False
+                
+            return command_successful
+            
+        except KeyboardInterrupt:
+            print("\n⚠ Operation cancelled by user")
+            return False
+        except SystemExit as e:
+            logger.info(f"System exit requested: {e}")
+            raise
+        except Exception as e:
+            logger.error(f"Command '{command_name}' failed with exception: {e}", exc_info=True)
+            print(f"✗ Command failed: {e}", file=sys.stderr)
+            return False
+
+    def send_completion_signals(self, command_name: str, args: argparse.Namespace, 
+                              success: bool, exception: Optional[Exception] = None):
+        """Send appropriate completion signals."""
+        if not self.dispatcher:
+            return
+            
+        try:
+            if success:
+                self.dispatcher.send("command_finished", 
+                                   sender=self.command_handler, 
+                                   command_name=command_name, 
+                                   args=args, 
+                                   success=True)
+                logger.debug(f"Signal 'command_finished' sent for command '{command_name}'.")
+            else:
+                self.dispatcher.send("command_failed", 
+                                   sender=self.command_handler, 
+                                   command_name=command_name, 
+                                   args=args, 
+                                   exception=exception)
+                logger.debug(f"Signal 'command_failed' sent for command '{command_name}'.")
+        except Exception as sig_e:
+            logger.error(f"Error sending completion signal for command '{command_name}': {sig_e}", 
+                        exc_info=True)
+
+    def run(self) -> int:
+        """Main entry point for the CLI."""
+        # Initialize components
+        if not self.initialize_components():
+            return 1
+            
+        # Create parser and parse arguments
+        parser = self.create_parser()
+        
+        try:
+            args = parser.parse_args()
+        except SystemExit:
+            return 1
+            
+        command_name = args.command
+        command_successful = False
+        command_exception = None
+        
+        try:
+            # Execute command
+            command_successful = self.execute_command(args)
+            
+            if command_successful:
+                logger.info(f"Command '{command_name}' completed successfully")
+            else:
+                logger.error(f"Command '{command_name}' failed")
+                
+        except SystemExit as e:
+            logger.info(f"System exit for command '{command_name}': {e}")
+            command_successful = True
+            command_exception = e
+            raise
+            
+        except Exception as e:
+            command_exception = e
+            command_successful = False
+            logger.error(f"Command '{command_name}' failed with exception: {e}", exc_info=True)
+            
+        finally:
+            # Send completion signals
+            self.send_completion_signals(command_name, args, command_successful, command_exception)
+            
+        # Return appropriate exit code
+        if not command_successful and command_exception is not None:
+            if isinstance(command_exception, SystemExit):
+                raise command_exception
+            return 1
+            
+        return 0 if command_successful else 1
+
+
+def main():
+    """
+    Main entry point for the SqlAlembic Framework management utility.
+    """
+    cli = SqlAlembicCLI()
+    
+    try:
+        exit_code = cli.run()
+        sys.exit(exit_code)
+    except KeyboardInterrupt:
+        print("\n⚠ Operation cancelled by user")
+        sys.exit(130)  # Standard exit code for SIGINT
+    except Exception as e:
+        logger.exception("An unhandled exception occurred during execution:")
+        print(f"✗ Fatal error: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
