@@ -8,3 +8,9 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 @app.get("/items")
 async def all_items():
     return all_items
+
+
+
+
+
+
