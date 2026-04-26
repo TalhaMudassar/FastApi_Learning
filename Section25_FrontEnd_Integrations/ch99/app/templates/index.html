@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Product List</h1>
+
+{# HTMX will automatically inject the form here on page load #}
+<div id="product-form" hx-get="/form" hx-trigger="load"></div>
+
+<hr>
+
+{# HTMX will automatically inject the product list here on page load #}
+<div id="product-list" hx-get="/products/list" hx-trigger="load"></div>
+
+{% endblock content %}

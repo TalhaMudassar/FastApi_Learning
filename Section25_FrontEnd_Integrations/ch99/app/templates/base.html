@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FASTAPI + HTMX</title>
+    <link rel="stylesheet" href="static/css/styles.css">
+    <script
+      src="https://cdn.jsdelivr.net/npm/htmx.org@4.0.0-beta2"
+      integrity="sha384-v+EMKtNUAo5enmQxBqgoU/FWvVvvZHvITNzurHSl4kzvCs94wdlgHUci1lliKWKz"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <div class="container">
+        {% block content %} {% endblock %}
+    </div>
+  </body>
+</html>
