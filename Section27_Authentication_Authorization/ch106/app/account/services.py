@@ -1,7 +1,7 @@
 from app.account.models import User, UserCreate
 from sqlmodel import Session, select
 from fastapi import HTTPException
-from app.account.utils import hash_password
+from app.account.utils import hash_password, verify_password
 
 def create_user(session: Session, user: UserCreate):
     stmt = select(User).where(User.email == user.email)
@@ -21,3 +21,13 @@ def create_user(session: Session, user: UserCreate):
     session.refresh(new_user)
 
     return new_user
+
+
+def authenticate_user(session:Session , email:str , password:str):
+    stmt = select(User).where(User.email == email)
+    user = session.exec(stmt).first()
+    if not user or not verify_password(password , user.hashed_password):
+        return None
+    return user 
+
+
