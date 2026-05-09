@@ -1,20 +1,17 @@
-from fastapi import APIRouter, Depends, Request
-from app.account.services import create_user, authenticate_user
+from fastapi import APIRouter, Depends, HTTPException, Request
+from app.account.services import create_user, authenticate_user, process_email_verification, verify_email_token
 from app.account.models import UserCreate, UserOut
 from app.db.config import SessionDep
 from fastapi.security import OAuth2PasswordRequestForm
-from fastapi import HTTPException
 from app.account.utils import create_tokens, verify_refresh_token
 from fastapi.responses import JSONResponse
 from app.account.dependencies import get_current_user
 
-
-router = APIRouter(prefix="/account" , tags=["Account"])
+router = APIRouter(prefix="/account", tags=["Account"])
 
 @router.post("/register", response_model=UserOut)
-def register(session:SessionDep, user:UserCreate):
-    return create_user(session,user)
-
+def register(session: SessionDep, user: UserCreate):
+  return create_user(session, user)
 
 @router.post("/login")
 def login(session: SessionDep, form_data: OAuth2PasswordRequestForm = Depends()):
@@ -26,8 +23,6 @@ def login(session: SessionDep, form_data: OAuth2PasswordRequestForm = Depends())
   response.set_cookie("refresh_token", tokens["refresh_token"], httponly=True, secure=True, samesite="Lax", max_age=60 * 60 * 24 * 7)
   return response
 
-
-
 @router.post("/refresh")
 def refresh_token(session: SessionDep, request: Request):
   token = request.cookies.get("refresh_token")
@@ -37,7 +32,15 @@ def refresh_token(session: SessionDep, request: Request):
   if not user:
     raise HTTPException(status_code=401, detail="Invalid or expired refresh token")
   return create_tokens(session, user)
- 
+
 @router.get("/me", response_model=UserOut)
 def me(user = Depends(get_current_user)):
   return user
+
+@router.post("/verify-request")
+def send_verfication_email(user = Depends(get_current_user)):
+  return process_email_verification(user)
+  
+@router.get("/verify")
+def verify_email(session: SessionDep, token: str):
+  return verify_email_token(session, token)
