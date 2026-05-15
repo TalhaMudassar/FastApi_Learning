@@ -16,3 +16,9 @@ def get_current_user(session: SessionDep, token: str = Depends(oauth2_scheme)):
   if not user:
     raise HTTPException(status_code=404, detail="User not found")
   return user
+
+
+def require_admin(user: User = Depends(get_current_user)):
+  if not user.is_admin:
+     raise HTTPException(status_code=403, detail="You are not an Admin")
+  return user

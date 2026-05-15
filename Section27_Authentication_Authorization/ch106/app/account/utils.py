@@ -68,3 +68,23 @@ def verify_token_and_get_user_id(token: str, token_type: str):
   if not payload or payload.get("type") != token_type:
     return None
   return int(payload.get("sub"))
+
+
+def get_user_by_email(session: Session, email: str):
+  stmt = select(User).where(User.email == email)
+  return session.exec(stmt).first()
+
+def create_password_reset_token(user_id: int):
+  expire = datetime.now(timezone.utc) + timedelta(hours=1)
+  to_encode = {"sub": str(user_id), "type": "reset", "exp": expire}
+  return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
+
+
+
+def revoke_refresh_token(session: Session, token: str):
+  stmt = select(RefreshToken).where(RefreshToken.token == token)
+  db_token = session.exec(stmt).first()
+  if db_token:
+    db_token.revoked = True
+    session.commit()
