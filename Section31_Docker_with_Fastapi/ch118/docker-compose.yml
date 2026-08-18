@@ -1,0 +1,116 @@
+# ==========================================
+# Docker Compose Services
+# ==========================================
+
+services:
+
+  # ==========================================
+  # MySQL Database
+  # ==========================================
+
+  mysql_db:
+    # Custom name for the MySQL container
+    container_name: mysql_con
+
+    # MySQL Docker image and version
+    image: mysql:9.3.0
+
+    # Automatically restart the container if it stops
+    restart: always
+
+    # Map host port 3306 to MySQL container port 3306
+    ports:
+      - "3306:3306"
+
+    # Load MySQL configuration from the .env file
+    env_file:
+      - .env
+
+    # Store MySQL data permanently using a named volume
+    # so data is not lost when the container is removed
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+    # Check whether MySQL is ready to accept connections
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+
+  # ==========================================
+  # phpMyAdmin
+  # ==========================================
+
+  phpmyadmin:
+    # Custom name for the phpMyAdmin container
+    container_name: phpmyadmin_con
+
+    # Official phpMyAdmin Docker image
+    image: phpmyadmin
+
+    # Automatically restart the container if it stops
+    restart: always
+
+    # Access phpMyAdmin at http://localhost:8080
+    ports:
+      - "8080:80"
+
+    # Configuration for connecting phpMyAdmin to MySQL
+    environment:
+      # MySQL service name in this Docker Compose file
+      PMA_HOST: mysql_db
+
+      # Get the MySQL root password from .env
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+    # Start phpMyAdmin after the MySQL service starts
+    depends_on:
+      - mysql_db
+
+
+  # ==========================================
+  # FastAPI Application
+  # ==========================================
+
+  fastapi_app:
+    # Custom name for the FastAPI container
+    container_name: fastapi_con
+
+    # Build the FastAPI image using our Dockerfile
+    build:
+      # Current project directory
+      context: .
+
+      # Dockerfile used to build the image
+      dockerfile: Dockerfile
+
+    # Load FastAPI database configuration from .env
+    env_file:
+      - .env
+
+    # Access FastAPI at http://localhost:8000
+    ports:
+      - "8000:8000"
+
+    # Mount the current project into the container
+    # Useful for development because code changes
+    # are immediately available inside the container
+    volumes:
+      - .:/ch118
+
+    # Start FastAPI only after MySQL passes its healthcheck
+    depends_on:
+      mysql_db:
+        condition: service_healthy
+
+
+# ==========================================
+# Named Volumes
+# ==========================================
+
+# Persistent storage for MySQL database data
+volumes:
+  mysql_data:

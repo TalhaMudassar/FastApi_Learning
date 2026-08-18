@@ -1,0 +1,53 @@
+{
+  // The display name of the container. This is what you will see in the bottom-left corner of VS Code when connected.
+  "name": "FastAPI Dev Container",
+
+  // Points VS Code to your existing docker-compose file to build the environment. 
+  // The path is relative to the location of this .devcontainer folder.
+  "dockerComposeFile": "../docker-compose.yml",
+
+  // Tells VS Code which specific service in your docker-compose.yml to attach to and use as the primary workspace.
+  "service": "fastapi_app",
+
+  // The default directory VS Code will open upon connecting to the container. 
+  // This should match the volume mount or working directory set in your Docker configuration.
+  "workspaceFolder": "/ch118",
+
+  // Machine-specific settings that apply ONLY when this Dev Container is open. 
+  // This ensures a consistent editor experience for anyone using the project.
+  "customizations": {
+    "vscode": {
+      "settings": {
+        // Sets Bash as the default integrated terminal instead of generic shell/sh.
+        "terminal.integrated.defaultProfile.linux": "bash",
+        // Directs VS Code to the Python interpreter inside the container. 
+        // This is crucial for the editor to correctly resolve imports, run linting, and avoid "module not found" errors.
+        "python.pythonPath": "/usr/local/bin/python"
+      },
+      // Automatically installs these VS Code extensions inside the container.
+      // This means developers don't need to manually install tools out of the box.
+      "extensions": [
+        "ms-python.python", // Official Python extension for core support and debugging.
+        "ms-python.vscode-pylance" // High-performance language server for auto-complete and type checking.
+      ]
+    }
+  },
+
+  // A lifecycle command that runs automatically AFTER the container is successfully created. 
+  // Used here to ensure your FastAPI project dependencies are installed before you start coding.
+  "postCreateCommand": "pip install -r requirements.txt",
+
+  // Injects environment variables directly into the remote container environment.
+  "remoteEnv": {
+    // Forces Python to output stdout/stderr streams directly to the terminal without buffering. 
+    // This is highly recommended for Docker so FastAPI logs appear in real-time.
+    "PYTHONUNBUFFERED": "1",
+    // Prevents Python from cluttering your workspace with compiled .pyc files or __pycache__ directories.
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+
+  // Automatically forwards ports from inside the container to your local machine (localhost).
+  // - 8000: Allows you to view your running FastAPI app in your local web browser.
+  // - 3306: Exposes the default MySQL/MariaDB port so you can use local database GUI tools to inspect your data.
+  "forwardPorts": [8000, 3306]
+}
