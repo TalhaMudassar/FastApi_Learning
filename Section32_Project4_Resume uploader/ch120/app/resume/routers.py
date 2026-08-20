@@ -3,6 +3,7 @@ from fastapi import APIRouter, UploadFile, Form, File
 from app.db.config import SessionDep
 from app.resume.schemas import ResumeCreate, ResumeOut, GenderEnum
 from app.resume.services import create_resume, get_all_resumes
+from fastapi.responses import RedirectResponse
 
 router = APIRouter(prefix="/resumes", tags=["Resume"])
 
@@ -27,9 +28,9 @@ async def upload_resume(
         gender=gender,
         preferred_locations=preferred_locations,
     )
-  return await create_resume(session, data, image, resume_file)
-
-@router.get("/", response_model=List[ResumeOut])
+  await create_resume(session, data, image, resume_file)
+  
+  return RedirectResponse(url="/success", status_code=303)
 async def list_resumes(session: SessionDep):
     resumes = await get_all_resumes(session)
     return resumes
