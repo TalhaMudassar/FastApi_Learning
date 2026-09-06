@@ -1,0 +1,113 @@
+{
+  "info": {
+    "_postman_id": "ee0e2d19-5f0d-4bac-9047-c25206ff4bfc",
+    "name": "TestCasePro",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58008540",
+    "_collection_link": "https://go.postman.co/collection/58008540-ee0e2d19-5f0d-4bac-9047-c25206ff4bfc?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\": \"kunal@example.com\",\r\n    \"name\": \"kunal\",\r\n    \"password\": \"kunal123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/api/account/register",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "account",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "username",
+              "value": "kunal@example.com",
+              "type": "text",
+              "uuid": "ee2b6360-8495-4ad8-bab1-875005e72b61"
+            },
+            {
+              "key": "password",
+              "value": "kunal123",
+              "type": "text",
+              "uuid": "6177d51d-9f71-4c11-87c5-90315bd188a8"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseURL}}/api/account/login",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "api",
+            "account",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Me",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "BaseURL",
+      "value": ""
+    }
+  ]
+}

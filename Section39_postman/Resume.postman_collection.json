@@ -1,0 +1,84 @@
+{
+  "info": {
+    "_postman_id": "b97dafe8-1536-4bf5-a4b5-e0fef29e894b",
+    "name": "Resume",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58008540",
+    "_collection_link": "https://go.postman.co/collection/58008540-b97dafe8-1536-4bf5-a4b5-e0fef29e894b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Create Resume",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{json_web_token_0faw}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "name",
+              "value": "talha",
+              "type": "text"
+            },
+            {
+              "key": "email",
+              "value": "talha@example.com",
+              "type": "text"
+            },
+            {
+              "key": "dob",
+              "value": "2004-03-04",
+              "type": "text"
+            },
+            {
+              "key": "state",
+              "value": "Lahore",
+              "type": "text"
+            },
+            {
+              "key": "gender",
+              "value": "male",
+              "type": "text"
+            },
+            {
+              "key": "preferred_locations",
+              "value": "[Lahore,Karachi]",
+              "type": "text"
+            },
+            {
+              "key": "image",
+              "type": "file",
+              "src": "/C:/Users/PC/Pictures/WALLPAPER/Gemini_Generated_Image_cflpmqcflpmqcflp.jpg"
+            },
+            {
+              "key": "resume_file",
+              "type": "file",
+              "src": "/C:/Users/PC/Pictures/WALLPAPER/self enrollment.pdf"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{BaseURL}}/resumes/upload",
+          "host": [
+            "{{BaseURL}}"
+          ],
+          "path": [
+            "resumes",
+            "upload"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
