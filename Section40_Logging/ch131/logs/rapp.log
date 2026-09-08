@@ -1,0 +1,4 @@
+2026-09-07 21:43:20,957 - ch131 - INFO - main.py:root:9 - Root endpoint accesssed
+2026-09-07 21:43:20,958 - ch131 - WARNING - main.py:root:10 - Root accessed stop it
+2026-09-07 22:36:27,035 - ch131 - INFO - main.py:root:9 - Root endpoint accesssed
+2026-09-07 22:36:27,035 - ch131 - WARNING - main.py:root:10 - Root accessed stop it
