@@ -1,0 +1,1 @@
+2026-09-08 16:54:14,263 - ch132 - WARNING - errors.py:validation_exception_handler:7 - Validation error: [{'type': 'int_parsing', 'loc': ('path', 'item_id'), 'msg': 'Input should be a valid integer, unable to parse string as an integer', 'input': 'abc'}] - URL: http://127.0.0.1:8000/items/abc
