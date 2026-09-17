@@ -133,6 +133,9 @@ async def create_article(article: Article):
     
     
 # -----------------------------------------------------------
+# 7. List as the Root Request Body
+# If you want the top-level incoming JSON to be an array rather than an object,
+# type hint the argument as a list of models.
 
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -147,3 +150,28 @@ class Item(BaseModel):
 async def create_multiple_items(items: list[Item]):
     total_cost = sum(item.price for item in items)
     return {"items_processed": len(items), "total_cost": total_cost}
+
+
+# -------------------------------------------------------------------------------
+# 8. All-in-One: Path, Query, and Request Body Combined
+# FastAPI automatically parses each parameter correctly based on where it is declared.
+from fastapi import FastAPI, Path, Query
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class Item(BaseModel):
+    name: str
+    price: float
+
+@app.put("/items/{item_id}")
+async def update_item(
+    item_id: int = Path(..., ge=1, description="Resource ID in path"),
+    notify: bool = Query(default=False, description="Query string flag"),
+    item: Item = ...  # Request body
+):
+    return {
+        "item_id": item_id,
+        "notify_customer": notify,
+        "updated_item": item
+    }
