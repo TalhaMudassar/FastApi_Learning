@@ -47,7 +47,6 @@ async def get_user_by_id(user_id: str):
 # 6. String Validation & Regex with Path()
 # Enforce string constraints like character length or regex patterns.
 @app.get("/sku/{sku_code}")
-@app.get("/sku/{sku_code}")
 async def get_by_sku(
     sku_code: str = Path(
         ...,
