@@ -2,34 +2,25 @@
 
 @layer base {
   body {
-    background-color: #11141d;
-    color: #f1f5f9;
+    background-color: #f8fafc;
+    color: #0f172a;
     overflow-x: hidden;
   }
 
-  /* Custom Sleek Charcoal Scrollbar */
+  /* Custom Clean Scrollbar */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: #11141d;
+    background: #f1f5f9;
   }
   ::-webkit-scrollbar-thumb {
-    background: #252b3d;
+    background: #cbd5e1;
     border-radius: 4px;
-    border: 2px solid #11141d;
+    border: 2px solid #f1f5f9;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #06b6d4;
+    background: #94a3b8;
   }
-}
-
-/* Subtle Ambient Glow Mesh on Light-Black Charcoal */
-.ambient-glow {
-  background-color: #11141d;
-  background-image: 
-    radial-gradient(circle at 15% 10%, rgba(6, 182, 212, 0.09) 0%, transparent 50%),
-    radial-gradient(circle at 85% 55%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 50% 90%, rgba(14, 165, 233, 0.06) 0%, transparent 50%);
 }

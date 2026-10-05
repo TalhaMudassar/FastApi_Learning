@@ -107,60 +107,60 @@ const ProductCreatePage = () => {
 
   return (
     <AdminOnly>
-      <div className="max-w-3xl mx-auto bg-[#181c28] p-8 rounded-2xl shadow-2xl border border-white/10 text-slate-100">
-        <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/[0.08]">
+      <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-xs border border-gray-200 text-gray-900">
+        <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
           <div>
-            <h1 className="text-lg font-bold text-white">Add Hardware Product</h1>
-            <p className="text-xs text-slate-400 mt-0.5 font-mono">Publish a new computing or optics item to the catalog</p>
+            <h1 className="text-xl font-bold text-gray-900">Add Product</h1>
+            <p className="text-xs text-gray-500 mt-0.5">Publish a new item to the store catalog</p>
           </div>
           <Link
             href="/user/product"
-            className="text-xs font-mono text-slate-400 hover:text-white underline transition"
+            className="text-xs font-medium text-gray-500 hover:text-gray-900 transition"
           >
             ← Cancel
           </Link>
         </div>
 
         {error && (
-          <div className="mb-6 p-3.5 rounded-xl bg-rose-950/60 border border-rose-500/30 text-xs text-rose-300 font-mono">
+          <div className="mb-6 p-3.5 rounded-xl bg-red-50 border border-red-200 text-xs text-red-600 font-mono">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
               Product Title *
             </label>
             <input
               type="text"
               name="title"
-              placeholder="e.g. Dell XPS 16 OLED Workstation"
+              placeholder="e.g. Dell XPS 16 OLED Laptop"
               value={formData.title}
               onChange={handleChange}
-              className="w-full px-3.5 py-2.5 bg-[#141824] border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500 transition placeholder-slate-600"
+              className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs text-gray-900 focus:outline-none focus:border-gray-900 focus:bg-white transition placeholder-gray-400"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
-              Engineering Description *
+            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
+              Description *
             </label>
             <textarea
               name="description"
               rows={4}
-              placeholder="Detailed silicon specifications, sensor parameters, optics, and warranty terms..."
+              placeholder="Detailed specifications, features, warranty terms..."
               value={formData.description}
               onChange={handleChange}
-              className="w-full px-3.5 py-2.5 bg-[#141824] border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500 transition placeholder-slate-600"
+              className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs text-gray-900 focus:outline-none focus:border-gray-900 focus:bg-white transition placeholder-gray-400"
               required
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
                 Unit Price (PKR / Rs.) *
               </label>
               <input
@@ -171,14 +171,14 @@ const ProductCreatePage = () => {
                 min="0"
                 value={formData.price}
                 onChange={handleChange}
-                className="w-full px-3.5 py-2.5 bg-[#141824] border border-white/10 rounded-xl text-xs text-white font-mono focus:outline-none focus:border-cyan-500 transition placeholder-slate-600"
+                className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs text-gray-900 font-mono focus:outline-none focus:border-gray-900 focus:bg-white transition placeholder-gray-400"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
-                Initial Stock Units *
+              <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
+                Stock Quantity *
               </label>
               <input
                 type="number"
@@ -187,7 +187,7 @@ const ProductCreatePage = () => {
                 min="0"
                 value={formData.stock_quantity}
                 onChange={handleChange}
-                className="w-full px-3.5 py-2.5 bg-[#141824] border border-white/10 rounded-xl text-xs text-white font-mono focus:outline-none focus:border-cyan-500 transition placeholder-slate-600"
+                className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs text-gray-900 font-mono focus:outline-none focus:border-gray-900 focus:bg-white transition placeholder-gray-400"
                 required
               />
             </div>
@@ -195,11 +195,11 @@ const ProductCreatePage = () => {
 
           {/* Interactive Category Selector */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-2">
-              Assigned Categories (Click to toggle)
+            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-2">
+              Categories (Click to select)
             </label>
             {categories.length === 0 ? (
-              <p className="text-xs text-slate-500 italic font-mono">No categories found in system.</p>
+              <p className="text-xs text-gray-400 italic">No categories found in system.</p>
             ) : (
               <div className="flex flex-wrap gap-2">
                 {categories.map((cat) => {
@@ -211,8 +211,8 @@ const ProductCreatePage = () => {
                       onClick={() => toggleCategory(cat.id)}
                       className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer ${
                         isSelected
-                          ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40 shadow-xs'
-                          : 'bg-[#141824] text-slate-400 border-white/10 hover:border-white/20 hover:text-white'
+                          ? 'bg-gray-900 text-white border-gray-900 shadow-xs'
+                          : 'bg-gray-50 text-gray-700 border-gray-300 hover:border-gray-400 hover:text-gray-900'
                       }`}
                     >
                       {isSelected ? '✓ ' : '+ '}
@@ -226,31 +226,31 @@ const ProductCreatePage = () => {
 
           {/* Product Thumbnail Upload */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
-              Hardware Photography
+            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
+              Product Image
             </label>
             <input
               type="file"
               name="image"
               accept="image/*"
               onChange={handleChange}
-              className="w-full text-xs text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-white/[0.06] file:text-slate-200 hover:file:bg-white/[0.1] file:cursor-pointer"
+              className="w-full text-xs text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-gray-100 file:text-gray-800 hover:file:bg-gray-200 file:cursor-pointer"
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/[0.08]">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
             <Link
               href="/user/product"
-              className="px-5 py-2.5 text-xs font-mono text-slate-400 hover:text-white transition"
+              className="px-5 py-2.5 text-xs font-medium text-gray-600 hover:text-gray-900 transition"
             >
               Cancel
             </Link>
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-xs rounded-xl active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed transition shadow-lg shadow-cyan-500/20 cursor-pointer"
+              className="px-6 py-2.5 bg-gray-900 hover:bg-black text-white font-semibold text-xs rounded-xl active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed transition shadow-xs cursor-pointer"
             >
-              {loading ? 'Creating...' : 'Publish Product'}
+              {loading ? 'Creating...' : 'Save Product'}
             </button>
           </div>
         </form>

@@ -47,58 +47,58 @@ const CreateCategoryPage = () => {
 
   return (
     <AdminOnly>
-      <div className="max-w-md mx-auto bg-[#181c28] p-8 rounded-2xl shadow-2xl border border-white/10 mt-6 text-slate-100">
-        <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/[0.08]">
+      <div className="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-xs border border-gray-200 mt-6 text-gray-900">
+        <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
           <div>
-            <h1 className="text-lg font-bold text-white">Create Category</h1>
-            <p className="text-xs text-slate-400 mt-0.5 font-mono">Provision hardware catalog taxonomy</p>
+            <h1 className="text-xl font-bold text-gray-900">Create Category</h1>
+            <p className="text-xs text-gray-500 mt-0.5">Add a new product category</p>
           </div>
           <Link
             href="/user/category"
-            className="text-xs font-mono text-slate-400 hover:text-white transition underline"
+            className="text-xs font-medium text-gray-500 hover:text-gray-900 transition"
           >
             ← Cancel
           </Link>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-rose-950/60 border border-rose-500/30 text-rose-300 rounded-xl text-xs font-mono">
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-xs font-mono">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
-              Category Title *
+            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
+              Category Name *
             </label>
             <input
               type="text"
               name="name"
-              placeholder="e.g. Laptops, Workstations, Drones, CCTV Optics"
+              placeholder="e.g. Laptops, Desktops, Phones, Accessories"
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
                 if (error) setError('');
               }}
-              className="w-full px-3.5 py-2.5 bg-[#141824] border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500 transition placeholder-slate-600"
+              className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs text-gray-900 focus:outline-none focus:border-gray-900 focus:bg-white transition placeholder-gray-400"
               required
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/[0.08]">
+          <div className="flex items-center justify-end gap-3 pt-3 border-t border-gray-200">
             <Link
               href="/user/category"
-              className="px-4 py-2 text-xs font-mono text-slate-400 hover:text-white"
+              className="px-4 py-2 text-xs font-medium text-gray-500 hover:text-gray-900"
             >
               Cancel
             </Link>
             <button
               type="submit"
               disabled={loading || !name.trim()}
-              className="px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-xs rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition shadow-lg shadow-cyan-500/20 cursor-pointer"
+              className="px-5 py-2.5 bg-gray-900 hover:bg-black text-white font-semibold text-xs rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition shadow-xs cursor-pointer"
             >
-              {loading ? 'Creating...' : 'Create Category'}
+              {loading ? 'Creating...' : 'Save Category'}
             </button>
           </div>
         </form>

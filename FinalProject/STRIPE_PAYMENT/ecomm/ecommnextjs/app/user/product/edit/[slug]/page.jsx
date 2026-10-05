@@ -135,8 +135,8 @@ const ProductEditPage = () => {
     return (
       <AdminOnly>
         <div className="min-h-[40vh] flex flex-col items-center justify-center gap-3">
-          <div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-xs font-mono text-slate-400">Loading hardware details...</p>
+          <div className="w-8 h-8 border-2 border-gray-900 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-xs text-gray-500 font-mono">Loading product details...</p>
         </div>
       </AdminOnly>
     );
@@ -144,31 +144,31 @@ const ProductEditPage = () => {
 
   return (
     <AdminOnly>
-      <div className="max-w-3xl mx-auto bg-[#181c28] p-8 rounded-2xl shadow-2xl border border-white/10 text-slate-100">
-        <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/[0.08]">
+      <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-xs border border-gray-200 text-gray-900">
+        <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
           <div>
-            <h1 className="text-lg font-bold text-white">Edit Hardware Product</h1>
-            <p className="text-xs text-slate-400 mt-0.5 font-mono">
-              Update pricing, inventory levels, categories, or media
+            <h1 className="text-xl font-bold text-gray-900">Edit Product</h1>
+            <p className="text-xs text-gray-500 mt-0.5">
+              Update pricing, inventory levels, categories, or image
             </p>
           </div>
           <Link
             href="/user/product"
-            className="text-xs font-mono text-slate-400 hover:text-white underline transition"
+            className="text-xs font-medium text-gray-500 hover:text-gray-900 transition"
           >
             ← Cancel
           </Link>
         </div>
 
         {error && (
-          <div className="mb-6 p-3.5 rounded-xl bg-rose-950/60 border border-rose-500/30 text-xs text-rose-300 font-mono">
+          <div className="mb-6 p-3.5 rounded-xl bg-red-50 border border-red-200 text-xs text-red-600 font-mono">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
               Product Title *
             </label>
             <input
@@ -176,28 +176,28 @@ const ProductEditPage = () => {
               name="title"
               value={form.title}
               onChange={handleChange}
-              className="w-full px-3.5 py-2.5 bg-[#141824] border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500 transition placeholder-slate-600"
+              className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs text-gray-900 focus:outline-none focus:border-gray-900 focus:bg-white transition placeholder-gray-400"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
-              Engineering Description *
+            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
+              Description *
             </label>
             <textarea
               name="description"
               rows={4}
               value={form.description}
               onChange={handleChange}
-              className="w-full px-3.5 py-2.5 bg-[#141824] border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500 transition placeholder-slate-600"
+              className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs text-gray-900 focus:outline-none focus:border-gray-900 focus:bg-white transition placeholder-gray-400"
               required
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
                 Unit Price (PKR / Rs.) *
               </label>
               <input
@@ -207,13 +207,13 @@ const ProductEditPage = () => {
                 name="price"
                 value={form.price}
                 onChange={handleChange}
-                className="w-full px-3.5 py-2.5 bg-[#141824] border border-white/10 rounded-xl text-xs text-white font-mono focus:outline-none focus:border-cyan-500 transition placeholder-slate-600"
+                className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs text-gray-900 font-mono focus:outline-none focus:border-gray-900 focus:bg-white transition placeholder-gray-400"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
                 Stock Quantity *
               </label>
               <input
@@ -222,7 +222,7 @@ const ProductEditPage = () => {
                 name="stock_quantity"
                 value={form.stock_quantity}
                 onChange={handleChange}
-                className="w-full px-3.5 py-2.5 bg-[#141824] border border-white/10 rounded-xl text-xs text-white font-mono focus:outline-none focus:border-cyan-500 transition placeholder-slate-600"
+                className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs text-gray-900 font-mono focus:outline-none focus:border-gray-900 focus:bg-white transition placeholder-gray-400"
                 required
               />
             </div>
@@ -230,8 +230,8 @@ const ProductEditPage = () => {
 
           {/* Categories Selector */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-2">
-              Assigned Categories
+            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-2">
+              Categories (Click to select)
             </label>
             <div className="flex flex-wrap gap-2">
               {allCategories.map((cat) => {
@@ -243,8 +243,8 @@ const ProductEditPage = () => {
                     onClick={() => handleCategoryToggle(cat.id)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer ${
                       isSelected
-                        ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40 shadow-xs'
-                        : 'bg-[#141824] text-slate-400 border-white/10 hover:border-white/20 hover:text-white'
+                        ? 'bg-gray-900 text-white border-gray-900 shadow-xs'
+                        : 'bg-gray-50 text-gray-700 border-gray-300 hover:border-gray-400 hover:text-gray-900'
                     }`}
                   >
                     {isSelected ? '✓ ' : '+ '}
@@ -257,19 +257,19 @@ const ProductEditPage = () => {
 
           {/* Current & New Image Upload */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-2">
-              Hardware Photography
+            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-2">
+              Product Image
             </label>
             {currentImageUrl && (
-              <div className="flex items-center gap-4 mb-3 p-3 bg-[#141824] rounded-xl border border-white/10">
+              <div className="flex items-center gap-4 mb-3 p-3 bg-gray-50 rounded-xl border border-gray-200">
                 <img
                   src={currentImageUrl}
-                  alt={product.title}
-                  className="w-16 h-16 object-cover rounded-lg border border-white/10 bg-[#11141d]"
+                  alt={product?.title || 'Product'}
+                  className="w-16 h-16 object-cover rounded-lg border border-gray-200 bg-white"
                 />
-                <div className="text-xs text-slate-400">
-                  <p className="font-semibold text-white">Current Hardware Image</p>
-                  <p className="text-[11px] font-mono text-slate-500">Upload below only if you want to replace it</p>
+                <div className="text-xs text-gray-600">
+                  <p className="font-semibold text-gray-900">Current Image</p>
+                  <p className="text-[11px] text-gray-500">Upload below only if you want to replace it</p>
                 </div>
               </div>
             )}
@@ -277,23 +277,23 @@ const ProductEditPage = () => {
               type="file"
               accept="image/*"
               onChange={(e) => setForm((prev) => ({ ...prev, image: e.target.files[0] }))}
-              className="w-full text-xs text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-white/[0.06] file:text-slate-200 hover:file:bg-white/[0.1] file:cursor-pointer"
+              className="w-full text-xs text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-gray-100 file:text-gray-800 hover:file:bg-gray-200 file:cursor-pointer"
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/[0.08]">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
             <Link
               href="/user/product"
-              className="px-5 py-2.5 text-xs font-mono text-slate-400 hover:text-white transition"
+              className="px-5 py-2.5 text-xs font-medium text-gray-600 hover:text-gray-900 transition"
             >
               Cancel
             </Link>
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-xs rounded-xl active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed transition shadow-lg shadow-cyan-500/20 cursor-pointer"
+              className="px-6 py-2.5 bg-gray-900 hover:bg-black text-white font-semibold text-xs rounded-xl active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed transition shadow-xs cursor-pointer"
             >
-              {loading ? 'Updating...' : 'Update Product'}
+              {loading ? 'Updating...' : 'Save Changes'}
             </button>
           </div>
         </form>

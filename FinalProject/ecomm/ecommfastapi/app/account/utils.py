@@ -1,33 +1,51 @@
 from datetime import datetime, timedelta, timezone
+from email.message import EmailMessage
+import logging
 import uuid
+import aiosmtplib
 from decouple import config
-from jose import jwt, JWTError, ExpiredSignatureError
-from passlib.context import CryptContext
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
 from fastapi import HTTPException, status
+from jose import ExpiredSignatureError, JWTError, jwt
+from passlib.context import CryptContext
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.account.models import RefreshToken, User
+
+logger = logging.getLogger(__name__)
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-JWT_SECRET_KEY = config("JWT_SECRET_KEY") 
-JWT_ALGORITHM = config("JWT_ALGORITHM") 
-JWT_ACCESS_TOKEN_TIME_MIN = config("JWT_ACCESS_TOKEN_TIME_MIN", cast=int) 
-JWT_REFRESH_TOKEN_TIME_DAY = config("JWT_REFRESH_TOKEN_TIME_DAY", cast=int) 
-EMAIL_VERIFICATION_TOKEN_TIME_HOUR = config("EMAIL_VERIFICATION_TOKEN_TIME_HOUR", cast=int) 
-EMAIL_PASSWORD_RESET_TOKEN_TIME_HOUR = config("EMAIL_PASSWORD_RESET_TOKEN_TIME_HOUR", cast=int) 
+# JWT & Expiry Configurations
+JWT_SECRET_KEY = config("JWT_SECRET_KEY")
+JWT_ALGORITHM = config("JWT_ALGORITHM")
+JWT_ACCESS_TOKEN_TIME_MIN = config("JWT_ACCESS_TOKEN_TIME_MIN", cast=int)
+JWT_REFRESH_TOKEN_TIME_DAY = config("JWT_REFRESH_TOKEN_TIME_DAY", cast=int)
+EMAIL_VERIFICATION_TOKEN_TIME_HOUR = config("EMAIL_VERIFICATION_TOKEN_TIME_HOUR", cast=int)
+EMAIL_PASSWORD_RESET_TOKEN_TIME_HOUR = config("EMAIL_PASSWORD_RESET_TOKEN_TIME_HOUR", cast=int)
+
+# Mailtrap Configurations
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = config("EMAIL_PORT", cast=int)
+EMAIL_SENDER = config("EMAIL_SENDER")
+
 
 def hash_password(password: str) -> str:
     return pwd_context.hash(password)
 
+
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
-def create_access_token(data: dict, expires_delta: timedelta = None) -> str:
+
+def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
     to_encode = data.copy()
     expire = datetime.now(timezone.utc) + (expires_delta or timedelta(minutes=JWT_ACCESS_TOKEN_TIME_MIN))
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
+
 
 async def create_tokens(session: AsyncSession, user: User) -> dict:
     access_token = create_access_token(data={"sub": str(user.id)})
@@ -41,30 +59,32 @@ async def create_tokens(session: AsyncSession, user: User) -> dict:
     )
     session.add(refresh_token)
     await session.commit()
-    
+
     return {
         "access_token": access_token,
         "refresh_token": refresh_token_str,
         "token_type": "bearer"
     }
 
+
 def decode_token(token: str) -> dict:
     try:
         return jwt.decode(token, JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM])
     except ExpiredSignatureError:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, 
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token has expired",
             headers={"WWW-Authenticate": "Bearer"}
         )
     except JWTError:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, 
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid token",
             headers={"WWW-Authenticate": "Bearer"}
         )
 
-async def verify_and_revoke_refresh_token(session: AsyncSession, token: str):
+
+async def verify_and_revoke_refresh_token(session: AsyncSession, token: str) -> User | None:
     stmt = select(RefreshToken).where(RefreshToken.token == token)
     result = await session.scalars(stmt)
     db_refresh_token = result.first()
@@ -73,7 +93,7 @@ async def verify_and_revoke_refresh_token(session: AsyncSession, token: str):
         expires_at = db_refresh_token.expires_at
         if expires_at.tzinfo is None:
             expires_at = expires_at.replace(tzinfo=timezone.utc)
-            
+
         if expires_at > datetime.now(timezone.utc):
             db_refresh_token.revoked = True
             await session.commit()
@@ -81,36 +101,11 @@ async def verify_and_revoke_refresh_token(session: AsyncSession, token: str):
             user_stmt = select(User).where(User.id == db_refresh_token.user_id)
             user_result = await session.scalars(user_stmt)
             return user_result.first()
-        
+
     return None
 
-def create_email_verification_token(user_id: int) -> str:
-    expire = datetime.now(timezone.utc) + timedelta(hours=EMAIL_VERIFICATION_TOKEN_TIME_HOUR)
-    to_encode = {"sub": str(user_id), "type": "verify_email", "exp": expire}
-    return jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
 
-def create_password_reset_token(user_id: int) -> str:
-    expire = datetime.now(timezone.utc) + timedelta(hours=EMAIL_PASSWORD_RESET_TOKEN_TIME_HOUR)
-    to_encode = {"sub": str(user_id), "type": "password_reset", "exp": expire}
-    return jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
-
-def verify_email_token_and_get_user_id(token: str, token_type: str) -> int:
-    payload = decode_token(token)
-    if payload.get("type") != token_type:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, 
-            detail="Invalid token type"
-        )
-    user_id = payload.get("sub")
-    if not user_id:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, 
-            detail="Invalid token subject"
-        )
-    return int(user_id)
-
-
-async def revoke_refresh_token(session: AsyncSession, token: str):
+async def revoke_refresh_token(session: AsyncSession, token: str) -> None:
     stmt = select(RefreshToken).where(RefreshToken.token == token)
     result = await session.scalars(stmt)
     db_refresh_token = result.first()
@@ -118,3 +113,59 @@ async def revoke_refresh_token(session: AsyncSession, token: str):
     if db_refresh_token:
         db_refresh_token.revoked = True
         await session.commit()
+
+
+def create_email_verification_token(user_id: int) -> str:
+    expire = datetime.now(timezone.utc) + timedelta(hours=EMAIL_VERIFICATION_TOKEN_TIME_HOUR)
+    to_encode = {"sub": str(user_id), "type": "verify_email", "exp": expire}
+    return jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
+
+
+def create_password_reset_token(user_id: int) -> str:
+    expire = datetime.now(timezone.utc) + timedelta(hours=EMAIL_PASSWORD_RESET_TOKEN_TIME_HOUR)
+    to_encode = {"sub": str(user_id), "type": "password_reset", "exp": expire}
+    return jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
+
+
+def verify_email_token_and_get_user_id(token: str, token_type: str) -> int:
+    payload = decode_token(token)
+    if payload.get("type") != token_type:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid token type"
+        )
+    user_id = payload.get("sub")
+    if not user_id:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid token subject"
+        )
+    return int(user_id)
+
+
+async def get_user_by_email(session: AsyncSession, email: str) -> User | None:
+    stmt = select(User).where(User.email == email)
+    result = await session.scalars(stmt)
+    return result.first()
+
+
+# Mailtrap background sending function (Port 587 with STARTTLS)
+async def send_email(subject: str, recipients: list[str], body: str, sender: str = EMAIL_SENDER) -> None:
+    message = EmailMessage()
+    message["From"] = sender
+    message["To"] = ", ".join(recipients)
+    message["Subject"] = subject
+    message.set_content(body)
+
+    try:
+        await aiosmtplib.send(
+            message,
+            hostname=EMAIL_HOST,
+            username=EMAIL_HOST_USER,
+            password=EMAIL_HOST_PASSWORD,
+            port=EMAIL_PORT,
+            start_tls=True
+        )
+        logger.info(f"Verification email dispatched successfully to {recipients}")
+    except Exception as e:
+        logger.error(f"Failed to dispatch email to {recipients}: {e}")

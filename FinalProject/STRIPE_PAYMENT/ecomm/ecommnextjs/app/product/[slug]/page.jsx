@@ -83,40 +83,40 @@ const ProductDetailPage = () => {
   const isOutOfStock = product.stock_quantity <= 0;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-4 py-8 text-gray-900">
       {/* Editorial Breadcrumb */}
-      <div className="flex items-center gap-2 text-xs text-stone-400 mb-6 font-mono">
-        <button onClick={() => router.push('/')} className="hover:text-cyan-400 cursor-pointer">
-          Studio Home
+      <div className="flex items-center gap-2 text-xs text-gray-500 mb-6">
+        <button onClick={() => router.push('/')} className="hover:text-gray-900 cursor-pointer">
+          Home
         </button>
         <span>/</span>
-        <button onClick={() => router.push('/product')} className="hover:text-cyan-400 cursor-pointer">
-          Hardware Systems
+        <button onClick={() => router.push('/product')} className="hover:text-gray-900 cursor-pointer">
+          Products
         </button>
         <span>/</span>
-        <span className="text-white font-semibold">{product.title}</span>
+        <span className="text-gray-900 font-semibold">{product.title}</span>
       </div>
 
-      <div className="bg-[#181c28] rounded-3xl border border-white/10 p-6 md:p-10 shadow-2xl">
+      <div className="bg-white rounded-3xl border border-gray-200 p-6 md:p-10 shadow-xs">
         <div className="grid md:grid-cols-2 gap-10 lg:gap-14 items-start">
           {/* Product Image Frame */}
-          <div className="w-full aspect-4/3 md:aspect-square rounded-2xl overflow-hidden bg-[#11141d] flex items-center justify-center border border-white/10 relative group">
+          <div className="w-full aspect-4/3 md:aspect-square rounded-2xl overflow-hidden bg-gray-50 flex items-center justify-center border border-gray-200 relative group">
             <img
               src={rawImageUrl}
               alt={product.title}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-95 group-hover:opacity-100"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               onError={(e) => {
                 e.currentTarget.src = luxuryFallback;
               }}
             />
             {/* Status Pill */}
             <div className="absolute top-4 left-4 z-10">
-              <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold tracking-wider uppercase backdrop-blur-md shadow-sm border ${
+              <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold tracking-wider uppercase backdrop-blur-md shadow-2xs border ${
                 isOutOfStock 
-                  ? 'bg-rose-950/80 text-rose-300 border-rose-500/30' 
-                  : 'bg-[#11141d]/90 text-cyan-300 border-cyan-500/40'
+                  ? 'bg-rose-50 text-rose-700 border-rose-200' 
+                  : 'bg-white/95 text-emerald-700 border-emerald-200'
               }`}>
-                <span className={`w-2 h-2 rounded-full ${isOutOfStock ? 'bg-rose-500' : 'bg-cyan-400 animate-pulse'}`} />
+                <span className={`w-2 h-2 rounded-full ${isOutOfStock ? 'bg-rose-500' : 'bg-emerald-500 animate-pulse'}`} />
                 <span>{isOutOfStock ? 'Sold Out' : `In Stock (${product.stock_quantity})`}</span>
               </span>
             </div>
@@ -131,7 +131,7 @@ const ProductDetailPage = () => {
                   {product.categories.map((cat) => (
                     <span
                       key={cat.id}
-                      className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#11141d] text-cyan-300 border border-cyan-500/30 tracking-wide uppercase font-mono"
+                      className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200 tracking-wide uppercase"
                     >
                       {cat.name}
                     </span>
@@ -139,70 +139,70 @@ const ProductDetailPage = () => {
                 </div>
               )}
 
-              <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight leading-tight">
                 {product.title}
               </h1>
 
               <div className="mt-4 flex items-baseline gap-3">
-                <span className="text-3xl font-extrabold text-cyan-400 tracking-tight font-mono">
+                <span className="text-3xl font-extrabold text-gray-900 tracking-tight font-mono">
                   Rs. {Number(product.price).toLocaleString()}
                 </span>
-                <span className="text-xs text-slate-400 font-medium font-mono">
+                <span className="text-xs text-gray-500 font-medium">
                   PKR · Free Insured TCS Courier Dispatch
                 </span>
               </div>
 
-              <div className="mt-6 pt-6 border-t border-white/10">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2 font-mono">
-                  Hardware Specification & Architecture
+              <div className="mt-6 pt-6 border-t border-gray-100">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2 font-mono">
+                  Product Description &amp; Details
                 </h4>
-                <p className="text-slate-300 leading-relaxed text-sm">
+                <p className="text-gray-600 leading-relaxed text-sm">
                   {product.description || 'Precision-engineered hardware with high-grade thermal dissipation and factory burn-in validation. Backed by Aura Studio official warranty.'}
                 </p>
               </div>
 
               {/* Hardware Specifications Grid */}
-              <div className="grid grid-cols-2 gap-3 mt-6 p-4 rounded-xl bg-[#11141d] border border-white/10 text-xs">
+              <div className="grid grid-cols-2 gap-3 mt-6 p-4 rounded-xl bg-gray-50 border border-gray-200 text-xs">
                 <div>
-                  <span className="text-slate-500 block text-[10px] uppercase font-bold tracking-wider font-mono">Build Grade</span>
-                  <span className="font-semibold text-slate-200">Precision Chassis</span>
+                  <span className="text-gray-400 block text-[10px] uppercase font-bold tracking-wider font-mono">Build Grade</span>
+                  <span className="font-semibold text-gray-800">Precision Chassis</span>
                 </div>
                 <div>
-                  <span className="text-stone-500 block text-[10px] uppercase font-bold tracking-wider font-mono">Warranty</span>
-                  <span className="font-semibold text-slate-200">1-Year Official Warranty</span>
+                  <span className="text-gray-400 block text-[10px] uppercase font-bold tracking-wider font-mono">Warranty</span>
+                  <span className="font-semibold text-gray-800">1-Year Official Warranty</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 block text-[10px] uppercase font-bold tracking-wider font-mono">Diagnostics</span>
-                  <span className="font-semibold text-slate-200">Burn-in Tested</span>
+                  <span className="text-gray-400 block text-[10px] uppercase font-bold tracking-wider font-mono">Diagnostics</span>
+                  <span className="font-semibold text-gray-800">Burn-in Tested</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 block text-[10px] uppercase font-bold tracking-wider font-mono">Dispatch</span>
-                  <span className="font-semibold text-slate-200">Insured TCS / Courier</span>
+                  <span className="text-gray-400 block text-[10px] uppercase font-bold tracking-wider font-mono">Dispatch</span>
+                  <span className="font-semibold text-gray-800">Insured Courier Delivery</span>
                 </div>
               </div>
             </div>
 
             {/* Add to Cart Button */}
-            <div className="pt-6 border-t border-white/10">
+            <div className="pt-6 border-t border-gray-100">
               <button
                 type="button"
                 onClick={handleAddToCart}
                 disabled={isOutOfStock || addingToCart}
-                className="w-full py-4 px-8 rounded-xl font-bold text-sm tracking-wide transition-all duration-300 shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white active:scale-[0.99]"
+                className="w-full py-4 px-8 rounded-xl font-bold text-sm tracking-wide transition-all duration-300 shadow-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed bg-gray-900 hover:bg-black text-white active:scale-[0.99]"
               >
                 {addingToCart ? (
-                  <span>Securing Hardware...</span>
+                  <span>Adding to Cart...</span>
                 ) : isOutOfStock ? (
                   <span>Sold Out</span>
                 ) : (
                   <>
-                    <span>Add to Bag</span>
+                    <span>Add to Cart</span>
                     <span className="opacity-60">·</span>
                     <span className="font-mono">Rs. {Number(product.price).toLocaleString()}</span>
                   </>
                 )}
               </button>
-              <p className="text-[11px] text-center text-slate-400 mt-3 font-medium">
+              <p className="text-[11px] text-center text-gray-500 mt-3 font-medium">
                 Verified 256-bit Stripe encryption · Automated card refund on order cancellation
               </p>
             </div>

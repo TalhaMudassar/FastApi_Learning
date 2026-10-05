@@ -2,12 +2,9 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Lusion3DHero from "@/components/home/Lusion3DHero";
-import Lusion3DCards from "@/components/home/Lusion3DCards";
+import Hero from "@/components/Hero";
 import OakywoodProductCard from "@/components/home/OakywoodProductCard";
-import HardwareEngineeringStory from "@/components/home/HardwareEngineeringStory";
-import ReviewsRibbon from "@/components/home/ReviewsRibbon";
-import { LaptopIcon, CctvCameraIcon, CpuChipIcon } from "@/components/ui/TechIcons";
+import { LaptopIcon, CctvCameraIcon, ShieldStripeIcon } from "@/components/ui/TechIcons";
 
 export default function Home() {
   const [clothing, setClothing] = useState([]);
@@ -42,49 +39,83 @@ export default function Home() {
   const showClothing = activeTab === "all" || activeTab === "clothing";
 
   return (
-    <div className="space-y-14">
-      {/* 1. Lusion.co-Inspired 3D Interactive Hero */}
-      <Lusion3DHero />
+    <div className="space-y-12">
+      {/* 1. Clean White Hero with hero-image.png */}
+      <Hero />
 
-      {/* 2. Lusion-Style 3D Tilt Hardware Feature Highlights */}
-      <Lusion3DCards />
-
-      {/* 3. Hardware Catalog & Category Filters */}
-      <section className="space-y-8 pt-4">
-        {/* Section Header & Interactive Filter Tabs */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-white/[0.08]">
+      {/* 2. Three-Card Trust & Quality Reassurance Bar */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 py-2">
+        <div className="p-5 rounded-2xl bg-white border border-gray-200 shadow-xs flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+            </svg>
+          </div>
           <div>
-            <span className="text-[11px] font-bold tracking-widest uppercase text-cyan-400 font-mono">
-              Hardware Laboratory
+            <h4 className="font-bold text-gray-900 text-sm">Insured Nationwide Delivery</h4>
+            <p className="text-xs text-gray-500 mt-0.5">Expedited courier dispatch via TCS & DHL</p>
+          </div>
+        </div>
+
+        <div className="p-5 rounded-2xl bg-white border border-gray-200 shadow-xs flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <div>
+            <h4 className="font-bold text-gray-900 text-sm">1-Year Official Warranty</h4>
+            <p className="text-xs text-gray-500 mt-0.5">Complete hardware coverage and RMA support</p>
+          </div>
+        </div>
+
+        <div className="p-5 rounded-2xl bg-white border border-gray-200 shadow-xs flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-600 shrink-0">
+            <ShieldStripeIcon className="w-6 h-6" />
+          </div>
+          <div>
+            <h4 className="font-bold text-gray-900 text-sm">Stripe Payment & Refunds</h4>
+            <p className="text-xs text-gray-500 mt-0.5">Automated card refund on order cancellation</p>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Products Catalog & Category Filters */}
+      <section className="space-y-8 pt-2">
+        {/* Section Header & Interactive Filter Tabs */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-gray-200">
+          <div>
+            <span className="text-[11px] font-bold tracking-widest uppercase text-blue-600 font-mono">
+              Store Catalog
             </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mt-0.5">
-              Precision Devices & Hardware
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight mt-0.5">
+              Featured Products
             </h2>
-            <p className="text-xs text-stone-400 mt-1">
-              High-refresh laptops, 4K CCTV optics, and aerial quadcopters engineered for extreme reliability
+            <p className="text-xs text-gray-500 mt-1">
+              Workstation laptops, 4K CCTV systems, and mobile gear
             </p>
           </div>
 
-          {/* Category Filter Pills (Dark Glassmorphic) */}
-          <div className="flex items-center gap-1.5 p-1 bg-[#181c28] rounded-xl border border-white/10 text-xs font-semibold">
+          {/* Category Filter Pills (Clean Light Aesthetic) */}
+          <div className="flex items-center gap-1.5 p-1 bg-gray-100 rounded-xl border border-gray-200 text-xs font-semibold">
             <button
               type="button"
               onClick={() => setActiveTab("all")}
               className={`px-3.5 py-1.5 rounded-lg transition-all cursor-pointer ${
                 activeTab === "all"
-                  ? "bg-cyan-400 text-black shadow-sm font-bold"
-                  : "text-stone-400 hover:text-white"
+                  ? "bg-white text-gray-900 shadow-xs font-bold"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
             >
-              All Hardware
+              All Products
             </button>
             <button
               type="button"
               onClick={() => setActiveTab("electronics")}
               className={`px-3.5 py-1.5 rounded-lg transition-all cursor-pointer ${
                 activeTab === "electronics"
-                  ? "bg-cyan-400 text-black shadow-sm font-bold"
-                  : "text-stone-400 hover:text-white"
+                  ? "bg-white text-gray-900 shadow-xs font-bold"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
             >
               Laptops & PCs
@@ -94,11 +125,11 @@ export default function Home() {
               onClick={() => setActiveTab("clothing")}
               className={`px-3.5 py-1.5 rounded-lg transition-all cursor-pointer ${
                 activeTab === "clothing"
-                  ? "bg-cyan-400 text-black shadow-sm font-bold"
-                  : "text-stone-400 hover:text-white"
+                  ? "bg-white text-gray-900 shadow-xs font-bold"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
             >
-              CCTV & Mobile Gear
+              CCTV & Accessories
             </button>
           </div>
         </div>
@@ -109,7 +140,7 @@ export default function Home() {
             {[1, 2, 3].map((n) => (
               <div
                 key={n}
-                className="h-72 rounded-2xl bg-white/[0.04] border border-white/[0.05] animate-pulse"
+                className="h-72 rounded-2xl bg-gray-100 border border-gray-200 animate-pulse"
               />
             ))}
           </div>
@@ -119,19 +150,19 @@ export default function Home() {
             {showElectronics && (
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold text-white tracking-tight flex items-center gap-2.5">
-                    <span className="p-1.5 rounded-lg bg-cyan-950/80 text-cyan-400 border border-cyan-500/30">
+                  <h3 className="text-base font-bold text-gray-900 tracking-tight flex items-center gap-2">
+                    <span className="p-1 rounded-md bg-blue-50 text-blue-600 border border-blue-100">
                       <LaptopIcon className="w-4 h-4" />
                     </span>
-                    <span>High-Performance Computing & Laptops</span>
+                    <span>Laptops & Computers</span>
                   </h3>
-                  <span className="text-xs text-stone-400 font-mono font-medium">
-                    {electronics.length} Units Available
+                  <span className="text-xs text-gray-500 font-medium">
+                    {electronics.length} Items Available
                   </span>
                 </div>
 
                 {electronics.length === 0 ? (
-                  <p className="text-xs text-stone-500 italic py-4">
+                  <p className="text-xs text-gray-400 italic py-4">
                     No computing units currently in inventory.
                   </p>
                 ) : (
@@ -148,19 +179,19 @@ export default function Home() {
             {showClothing && (
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold text-white tracking-tight flex items-center gap-2.5">
-                    <span className="p-1.5 rounded-lg bg-indigo-950/80 text-indigo-400 border border-indigo-500/30">
+                  <h3 className="text-base font-bold text-gray-900 tracking-tight flex items-center gap-2">
+                    <span className="p-1 rounded-md bg-indigo-50 text-indigo-600 border border-indigo-100">
                       <CctvCameraIcon className="w-4 h-4" />
                     </span>
-                    <span>Surveillance, CCTV & Mobile Equipment</span>
+                    <span>Surveillance, CCTV & Mobile Gear</span>
                   </h3>
-                  <span className="text-xs text-stone-400 font-mono font-medium">
-                    {clothing.length} Units Available
+                  <span className="text-xs text-gray-500 font-medium">
+                    {clothing.length} Items Available
                   </span>
                 </div>
 
                 {clothing.length === 0 ? (
-                  <p className="text-xs text-stone-500 italic py-4">
+                  <p className="text-xs text-gray-400 italic py-4">
                     No surveillance systems currently in inventory.
                   </p>
                 ) : (
@@ -175,12 +206,6 @@ export default function Home() {
           </div>
         )}
       </section>
-
-      {/* 4. Hardware Engineering & Architecture Story */}
-      <HardwareEngineeringStory />
-
-      {/* 5. Press Accolades & Verified Reviews Ribbon */}
-      <ReviewsRibbon />
     </div>
   );
 }

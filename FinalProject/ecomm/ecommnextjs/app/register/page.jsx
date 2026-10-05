@@ -4,17 +4,20 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 
+// Render registration form and handle account creation
 const RegisterPage = () => {
   const { register } = useAuth();
   const [form, setForm] = useState({ email: '', password: '' });
   const [errorMsg, setErrorMsg] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
+  // Update form state on user input
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     if (errorMsg) setErrorMsg(''); // Clear error on typing
   };
 
+  // Submit registration data to backend
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);

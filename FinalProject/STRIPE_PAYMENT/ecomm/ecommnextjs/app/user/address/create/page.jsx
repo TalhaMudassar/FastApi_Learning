@@ -55,93 +55,93 @@ const CreateAddress = () => {
   };
 
   return (
-    <div className="p-6 sm:p-8 max-w-xl mx-auto bg-[#181c28] rounded-2xl border border-white/10 shadow-2xl text-slate-100">
-      <div className="flex justify-between items-center mb-6 pb-4 border-b border-white/[0.08]">
-        <h2 className="text-lg font-bold text-white">Add Delivery Destination</h2>
+    <div className="p-6 sm:p-8 max-w-xl mx-auto bg-white rounded-2xl border border-gray-200 shadow-xs text-gray-900">
+      <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
+        <h2 className="text-lg font-bold text-gray-900">Add Delivery Address</h2>
         <Link
           href="/user/address"
-          className="text-xs text-slate-400 hover:text-white font-mono underline transition"
+          className="text-xs text-gray-500 hover:text-gray-900 underline transition"
         >
           ← Back
         </Link>
       </div>
 
       {error && (
-        <div className="mb-4 p-3 bg-rose-950/60 border border-rose-500/30 text-rose-300 text-xs rounded-xl font-mono">
+        <div className="mb-4 p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl">
           {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block mb-1 text-xs font-mono uppercase tracking-wider text-slate-300">Full Name *</label>
+          <label className="block mb-1 text-xs font-semibold uppercase tracking-wider text-gray-700">Full Name *</label>
           <input
             name="name"
             value={form.name}
             onChange={handleChange}
             placeholder="John Doe"
-            className="w-full bg-[#141824] border border-white/10 p-2.5 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500 placeholder-slate-600"
+            className="w-full bg-gray-50 border border-gray-300 p-2.5 rounded-xl text-xs text-gray-900 focus:bg-white focus:outline-none focus:border-gray-900 placeholder-gray-400"
             required
           />
         </div>
 
         <div>
-          <label className="block mb-1 text-xs font-mono uppercase tracking-wider text-slate-300">Phone Number *</label>
+          <label className="block mb-1 text-xs font-semibold uppercase tracking-wider text-gray-700">Phone Number *</label>
           <input
             type="tel"
             name="phone_number"
             value={form.phone_number}
             onChange={handleChange}
             placeholder="+92 300 1234567"
-            className="w-full bg-[#141824] border border-white/10 p-2.5 rounded-xl text-xs text-white font-mono focus:outline-none focus:border-cyan-500 placeholder-slate-600"
+            className="w-full bg-gray-50 border border-gray-300 p-2.5 rounded-xl text-xs text-gray-900 font-mono focus:bg-white focus:outline-none focus:border-gray-900 placeholder-gray-400"
             required
           />
         </div>
 
         <div>
-          <label className="block mb-1 text-xs font-mono uppercase tracking-wider text-slate-300">Address Line 1 *</label>
+          <label className="block mb-1 text-xs font-semibold uppercase tracking-wider text-gray-700">Address Line 1 *</label>
           <input
             name="address_line1"
             value={form.address_line1}
             onChange={handleChange}
             placeholder="House / Street / Flat no."
-            className="w-full bg-[#141824] border border-white/10 p-2.5 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500 placeholder-slate-600"
+            className="w-full bg-gray-50 border border-gray-300 p-2.5 rounded-xl text-xs text-gray-900 focus:bg-white focus:outline-none focus:border-gray-900 placeholder-gray-400"
             required
           />
         </div>
 
         <div>
-          <label className="block mb-1 text-xs font-mono uppercase tracking-wider text-slate-300">Address Line 2 (Optional)</label>
+          <label className="block mb-1 text-xs font-semibold uppercase tracking-wider text-gray-700">Address Line 2 (Optional)</label>
           <input
             name="address_line2"
             value={form.address_line2}
             onChange={handleChange}
             placeholder="Landmark, Area, Suite"
-            className="w-full bg-[#141824] border border-white/10 p-2.5 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500 placeholder-slate-600"
+            className="w-full bg-gray-50 border border-gray-300 p-2.5 rounded-xl text-xs text-gray-900 focus:bg-white focus:outline-none focus:border-gray-900 placeholder-gray-400"
           />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block mb-1 text-xs font-mono uppercase tracking-wider text-slate-300">City *</label>
+            <label className="block mb-1 text-xs font-semibold uppercase tracking-wider text-gray-700">City *</label>
             <input
               name="city"
               value={form.city}
               onChange={handleChange}
-              placeholder="Hasilpur / Lahore"
-              className="w-full bg-[#141824] border border-white/10 p-2.5 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500 placeholder-slate-600"
+              placeholder="Lahore / Islamabad"
+              className="w-full bg-gray-50 border border-gray-300 p-2.5 rounded-xl text-xs text-gray-900 focus:bg-white focus:outline-none focus:border-gray-900 placeholder-gray-400"
               required
             />
           </div>
 
           <div>
-            <label className="block mb-1 text-xs font-mono uppercase tracking-wider text-slate-300">State / Province *</label>
+            <label className="block mb-1 text-xs font-semibold uppercase tracking-wider text-gray-700">State / Province *</label>
             <input
               name="state"
               value={form.state}
               onChange={handleChange}
-              placeholder="Punjab"
-              className="w-full bg-[#141824] border border-white/10 p-2.5 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500 placeholder-slate-600"
+              placeholder="Punjab / Sindh"
+              className="w-full bg-gray-50 border border-gray-300 p-2.5 rounded-xl text-xs text-gray-900 focus:bg-white focus:outline-none focus:border-gray-900 placeholder-gray-400"
               required
             />
           </div>
@@ -149,25 +149,25 @@ const CreateAddress = () => {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block mb-1 text-xs font-mono uppercase tracking-wider text-slate-300">Postal Code *</label>
+            <label className="block mb-1 text-xs font-semibold uppercase tracking-wider text-gray-700">Postal Code *</label>
             <input
               name="pin_code"
               value={form.pin_code}
               onChange={handleChange}
-              placeholder="63636"
-              className="w-full bg-[#141824] border border-white/10 p-2.5 rounded-xl text-xs text-white font-mono focus:outline-none focus:border-cyan-500 placeholder-slate-600"
+              placeholder="54000"
+              className="w-full bg-gray-50 border border-gray-300 p-2.5 rounded-xl text-xs text-gray-900 font-mono focus:bg-white focus:outline-none focus:border-gray-900 placeholder-gray-400"
               required
             />
           </div>
 
           <div>
-            <label className="block mb-1 text-xs font-mono uppercase tracking-wider text-slate-300">Country *</label>
+            <label className="block mb-1 text-xs font-semibold uppercase tracking-wider text-gray-700">Country *</label>
             <input
               name="country"
               value={form.country}
               onChange={handleChange}
               placeholder="Pakistan"
-              className="w-full bg-[#141824] border border-white/10 p-2.5 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500 placeholder-slate-600"
+              className="w-full bg-gray-50 border border-gray-300 p-2.5 rounded-xl text-xs text-gray-900 focus:bg-white focus:outline-none focus:border-gray-900 placeholder-gray-400"
               required
             />
           </div>
@@ -176,9 +176,9 @@ const CreateAddress = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full mt-4 py-3 rounded-xl text-white font-semibold text-xs transition bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-50 cursor-pointer shadow-lg shadow-cyan-500/20"
+          className="w-full mt-4 py-3 rounded-xl text-white font-semibold text-xs transition bg-gray-900 hover:bg-black disabled:opacity-50 cursor-pointer shadow-xs"
         >
-          {loading ? 'Saving Address...' : 'Save Delivery Coordinates'}
+          {loading ? 'Saving Address...' : 'Save Address'}
         </button>
       </form>
     </div>

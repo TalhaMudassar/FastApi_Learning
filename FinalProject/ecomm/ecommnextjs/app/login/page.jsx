@@ -1,16 +1,29 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 
+// Render login form and handle authentication
 const LoginPage = () => {
   const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [infoMsg, setInfoMsg] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
+  // Check if redirected after registration to show verification email message
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('registered') === 'true') {
+        setInfoMsg('Account registered successfully! A verification email has been sent to your inbox. Please verify your email.');
+      }
+    }
+  }, []);
+
+  // Submit credentials to log in
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
@@ -39,6 +52,12 @@ const LoginPage = () => {
         <h1 className="text-2xl font-bold tracking-tight text-gray-900">Welcome Back</h1>
         <p className="text-sm text-gray-500 mt-1">Sign in to access your orders and cart</p>
       </div>
+
+      {infoMsg && (
+        <div className="mb-5 p-3 rounded-lg bg-emerald-50 border border-emerald-200 text-sm text-emerald-700">
+          {infoMsg}
+        </div>
+      )}
 
       {errorMsg && (
         <div className="mb-5 p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-600">
@@ -92,11 +111,16 @@ const LoginPage = () => {
         </button>
       </form>
 
-      <div className="mt-6 text-center text-sm text-gray-500">
-        Don&apos;t have an account?{' '}
-        <Link href="/register" className="font-semibold text-rose-600 hover:text-rose-700 underline">
-          Register here
+      <div className="mt-6 flex flex-col sm:flex-row sm:justify-between items-center text-sm gap-2">
+        <Link href="/reset-password-email" className="font-semibold text-rose-600 hover:text-rose-700 underline">
+          Forgot Password?
         </Link>
+        <div className="text-gray-500">
+          Don&apos;t have an account?{' '}
+          <Link href="/register" className="font-semibold text-rose-600 hover:text-rose-700 underline">
+            Register here
+          </Link>
+        </div>
       </div>
     </div>
   );

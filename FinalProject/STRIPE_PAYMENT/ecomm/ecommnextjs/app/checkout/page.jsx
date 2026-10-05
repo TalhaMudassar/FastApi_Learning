@@ -126,48 +126,48 @@ const CheckoutPage = () => {
   if (!cart || !cart.items || cart.items.length === 0) {
     return (
       <div className="min-h-[50vh] flex flex-col items-center justify-center text-center px-4">
-        <div className="w-16 h-16 rounded-2xl bg-stone-100 border border-stone-200 flex items-center justify-center text-stone-400 mb-4">
+        <div className="w-16 h-16 rounded-2xl bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-400 mb-4">
           <ShoppingBagIcon className="w-8 h-8" />
         </div>
-        <h2 className="text-2xl font-bold text-stone-800 mb-2">Your hardware bag is empty</h2>
-        <p className="text-stone-500 mb-6 text-sm">Add hardware units before proceeding to checkout.</p>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h2>
+        <p className="text-gray-500 mb-6 text-sm">Add items to your cart before proceeding to checkout.</p>
         <Link
           href="/product"
-          className="px-6 py-2.5 bg-stone-950 text-white font-medium rounded-xl hover:bg-cyan-700 transition"
+          className="px-6 py-2.5 bg-gray-900 text-white font-semibold rounded-xl hover:bg-black transition shadow-xs"
         >
-          Browse Hardware
+          Browse Products
         </Link>
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-4 py-8 text-gray-900">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/[0.08]">
+      <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-200">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
-            Secure Checkout Terminal
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900">
+            Checkout
           </h1>
-          <p className="text-xs sm:text-sm text-stone-400 mt-1 font-mono">
-            Stripe 256-bit encrypted transaction processing
+          <p className="text-xs sm:text-sm text-gray-500 mt-1">
+            Secure 256-bit encrypted Stripe checkout
           </p>
         </div>
         <Link
           href="/cart"
-          className="text-xs sm:text-sm font-bold text-cyan-400 hover:text-cyan-300 font-mono transition"
+          className="text-xs sm:text-sm font-semibold text-blue-600 hover:text-blue-700 transition"
         >
-          ← Edit Hardware Bag
+          ← Return to Cart
         </Link>
       </div>
 
       {/* Global Error Banner */}
       {errorMsg && (
-        <div className="mb-6 p-4 rounded-2xl bg-rose-950/70 border border-rose-500/40 text-sm text-rose-300 flex items-center justify-between font-mono">
+        <div className="mb-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-sm text-rose-700 flex items-center justify-between">
           <span>{errorMsg}</span>
           <button
             onClick={() => setErrorMsg("")}
-            className="text-rose-400 hover:text-white font-bold ml-4"
+            className="text-rose-500 hover:text-rose-800 font-bold ml-4 cursor-pointer"
           >
             ×
           </button>
@@ -178,34 +178,34 @@ const CheckoutPage = () => {
         {/* Left Column: Form & Payment Element */}
         <div className="lg:col-span-7 space-y-6">
           {/* STEP 1: Delivery Address */}
-          <div className="bg-[#181c28] border border-white/10 rounded-2xl p-6 shadow-2xl">
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-xs">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-500/30 font-bold text-xs flex items-center justify-center font-mono">
+                <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center">
                   1
                 </span>
-                <h2 className="text-base font-bold text-white">
-                  Dispatch & Delivery Destination
+                <h2 className="text-base font-bold text-gray-900">
+                  Shipping Address
                 </h2>
               </div>
               <Link
                 href="/user/address/create"
-                className="text-xs font-mono font-semibold text-cyan-400 hover:underline"
+                className="text-xs font-semibold text-blue-600 hover:underline"
               >
                 + Add Address
               </Link>
             </div>
 
             {addresses.length === 0 ? (
-              <div className="p-6 text-center border border-dashed border-white/15 rounded-xl bg-[#141824]">
-                <p className="text-sm text-slate-300 mb-3">
+              <div className="p-6 text-center border border-dashed border-gray-300 rounded-xl bg-gray-50">
+                <p className="text-sm text-gray-600 mb-3">
                   No saved delivery addresses found.
                 </p>
                 <Link
                   href="/user/address/create"
-                  className="inline-block px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-semibold rounded-xl transition shadow-lg shadow-cyan-500/20"
+                  className="inline-block px-4 py-2 bg-gray-900 hover:bg-black text-white text-xs font-semibold rounded-xl transition shadow-xs"
                 >
-                  Create Delivery Address
+                  Create Shipping Address
                 </Link>
               </div>
             ) : (
@@ -217,8 +217,8 @@ const CheckoutPage = () => {
                       key={addr.id}
                       className={`block p-4 rounded-xl border-2 cursor-pointer transition-all ${
                         isSelected
-                          ? "border-cyan-500 bg-cyan-950/30 shadow-lg shadow-cyan-500/10"
-                          : "border-white/10 hover:border-white/20 bg-[#141824]"
+                          ? "border-blue-600 bg-blue-50/50 shadow-xs"
+                          : "border-gray-200 hover:border-gray-300 bg-gray-50"
                       } ${stripeClientSecret ? "opacity-75 pointer-events-none" : ""}`}
                     >
                       <input
@@ -232,28 +232,28 @@ const CheckoutPage = () => {
                       />
                       <div className="text-xs space-y-1">
                         <div className="flex items-center justify-between">
-                          <p className="font-bold text-white text-sm">
+                          <p className="font-bold text-gray-900 text-sm">
                             {addr.name}
                           </p>
                           {isSelected && (
-                            <span className="text-cyan-400 font-mono font-bold text-[11px] uppercase tracking-wider">Selected</span>
+                            <span className="text-blue-600 font-bold text-[11px] uppercase tracking-wider">Selected</span>
                           )}
                         </div>
                         {addr.phone_number && (
-                          <p className="text-cyan-400 font-mono text-[11px]">
+                          <p className="text-blue-600 font-mono text-[11px]">
                             {addr.phone_number}
                           </p>
                         )}
-                        <p className="text-slate-300 leading-snug">
+                        <p className="text-gray-700 leading-snug">
                           {addr.address_line1}
                         </p>
                         {addr.address_line2 && (
-                          <p className="text-slate-400">{addr.address_line2}</p>
+                          <p className="text-gray-500">{addr.address_line2}</p>
                         )}
-                        <p className="text-slate-300 font-mono">
-                          {addr.city}, {addr.state} - <span className="font-semibold text-white">{addr.pin_code}</span>
+                        <p className="text-gray-700">
+                          {addr.city}, {addr.state} - <span className="font-semibold text-gray-900">{addr.pin_code}</span>
                         </p>
-                        <p className="text-slate-400">{addr.country}</p>
+                        <p className="text-gray-500">{addr.country}</p>
                       </div>
                     </label>
                   );
@@ -263,13 +263,13 @@ const CheckoutPage = () => {
           </div>
 
           {/* STEP 2: Payment Method or Stripe Card Form */}
-          <div className="bg-[#181c28] border border-white/10 rounded-2xl p-6 shadow-2xl">
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-xs">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 font-bold text-xs flex items-center justify-center">
+                <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center">
                   2
                 </span>
-                <h2 className="text-base font-bold text-white">
+                <h2 className="text-base font-bold text-gray-900">
                   Payment Method
                 </h2>
               </div>
@@ -277,7 +277,7 @@ const CheckoutPage = () => {
                 <button
                   type="button"
                   onClick={handleCancelStripe}
-                  className="text-xs text-slate-400 hover:text-cyan-400 font-medium underline transition"
+                  className="text-xs text-gray-500 hover:text-gray-900 font-medium underline transition cursor-pointer"
                 >
                   Change Method
                 </button>
@@ -287,11 +287,11 @@ const CheckoutPage = () => {
             {stripeClientSecret ? (
               // Active Stripe Elements Form
               <div className="space-y-4">
-                <div className="p-3 bg-cyan-950/40 border border-cyan-500/20 rounded-xl flex items-center justify-between text-xs">
-                  <span className="text-cyan-200 font-medium">
-                    Order Reference: <strong className="font-bold text-white">#{createdOrderId}</strong>
+                <div className="p-3 bg-blue-50 border border-blue-200 rounded-xl flex items-center justify-between text-xs">
+                  <span className="text-blue-900 font-medium">
+                    Order Reference: <strong className="font-bold text-gray-900">#{createdOrderId}</strong>
                   </span>
-                  <span className="text-cyan-400 font-mono font-bold">
+                  <span className="text-blue-700 font-mono font-bold">
                     Amount: Rs. {Number(cart.total_price).toLocaleString()} PKR
                   </span>
                 </div>
@@ -311,8 +311,8 @@ const CheckoutPage = () => {
                 <label
                   className={`p-4 rounded-xl border-2 cursor-pointer flex flex-col justify-between transition-all ${
                     selectedGateway === "stripe"
-                      ? "border-cyan-500 bg-cyan-950/30 shadow-lg shadow-cyan-500/10"
-                      : "border-white/10 hover:border-white/20 bg-[#141824]"
+                      ? "border-blue-600 bg-blue-50/50 shadow-xs"
+                      : "border-gray-200 hover:border-gray-300 bg-gray-50"
                   }`}
                 >
                   <div className="flex items-start justify-between">
@@ -324,26 +324,26 @@ const CheckoutPage = () => {
                           value="stripe"
                           checked={selectedGateway === "stripe"}
                           onChange={() => setSelectedGateway("stripe")}
-                          className="text-cyan-500 focus:ring-cyan-500"
+                          className="text-blue-600 focus:ring-blue-600"
                         />
-                        <span className="text-sm font-bold text-white">
+                        <span className="text-sm font-bold text-gray-900">
                           Credit / Debit Card
                         </span>
                       </div>
-                      <p className="text-xs text-slate-400 mt-1 pl-5">
+                      <p className="text-xs text-gray-500 mt-1 pl-5">
                         Stripe 3D-Secure, Cards, Apple Pay, Google Pay
                       </p>
                     </div>
-                    <span className="px-2 py-0.5 bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 text-[10px] font-bold rounded-full uppercase tracking-wider">
+                    <span className="px-2 py-0.5 bg-blue-100 text-blue-700 border border-blue-200 text-[10px] font-bold rounded-full uppercase tracking-wider">
                       Stripe
                     </span>
                   </div>
-                  <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-slate-400 pl-5">
+                  <div className="mt-4 pt-3 border-t border-gray-200 flex items-center justify-between text-[11px] text-gray-500 pl-5">
                     <span>256-bit Encrypted</span>
-                    <div className="flex gap-1 font-bold text-slate-300 text-[9px]">
-                      <span className="px-1.5 py-0.5 bg-white/[0.06] border border-white/10 rounded">VISA</span>
-                      <span className="px-1.5 py-0.5 bg-white/[0.06] border border-white/10 rounded">MC</span>
-                      <span className="px-1.5 py-0.5 bg-white/[0.06] border border-white/10 rounded">AMEX</span>
+                    <div className="flex gap-1 font-bold text-gray-600 text-[9px]">
+                      <span className="px-1.5 py-0.5 bg-white border border-gray-200 rounded">VISA</span>
+                      <span className="px-1.5 py-0.5 bg-white border border-gray-200 rounded">MC</span>
+                      <span className="px-1.5 py-0.5 bg-white border border-gray-200 rounded">AMEX</span>
                     </div>
                   </div>
                 </label>
@@ -352,8 +352,8 @@ const CheckoutPage = () => {
                 <label
                   className={`p-4 rounded-xl border-2 cursor-pointer flex flex-col justify-between transition-all ${
                     selectedGateway === "mock"
-                      ? "border-cyan-500 bg-cyan-950/30 shadow-lg shadow-cyan-500/10"
-                      : "border-white/10 hover:border-white/20 bg-[#141824]"
+                      ? "border-blue-600 bg-blue-50/50 shadow-xs"
+                      : "border-gray-200 hover:border-gray-300 bg-gray-50"
                   }`}
                 >
                   <div className="flex items-start justify-between">
@@ -365,21 +365,21 @@ const CheckoutPage = () => {
                           value="mock"
                           checked={selectedGateway === "mock"}
                           onChange={() => setSelectedGateway("mock")}
-                          className="text-cyan-500 focus:ring-cyan-500"
+                          className="text-blue-600 focus:ring-blue-600"
                         />
-                        <span className="text-sm font-bold text-white">
+                        <span className="text-sm font-bold text-gray-900">
                           Mock Sandbox Gateway
                         </span>
                       </div>
-                      <p className="text-xs text-slate-400 mt-1 pl-5">
+                      <p className="text-xs text-gray-500 mt-1 pl-5">
                         Simulated test authorization (no card required)
                       </p>
                     </div>
-                    <span className="px-2 py-0.5 bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] font-semibold rounded-full uppercase tracking-wider">
+                    <span className="px-2 py-0.5 bg-amber-100 text-amber-800 border border-amber-200 text-[10px] font-semibold rounded-full uppercase tracking-wider">
                       Testing
                     </span>
                   </div>
-                  <div className="mt-4 pt-3 border-t border-white/[0.08] text-[11px] text-slate-400 pl-5">
+                  <div className="mt-4 pt-3 border-t border-gray-200 text-[11px] text-gray-500 pl-5">
                     Instant sandbox authorization
                   </div>
                 </label>
@@ -390,8 +390,8 @@ const CheckoutPage = () => {
 
         {/* Right Column: Order Summary */}
         <div className="lg:col-span-5">
-          <div className="bg-[#181c28] border border-white/10 rounded-2xl p-6 shadow-2xl sticky top-24">
-            <h2 className="text-base font-bold text-white mb-4 pb-3 border-b border-white/10">
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-xs sticky top-24">
+            <h2 className="text-base font-bold text-gray-900 mb-4 pb-3 border-b border-gray-200">
               Order Summary
             </h2>
 
@@ -402,32 +402,32 @@ const CheckoutPage = () => {
                   className="flex items-center justify-between text-xs py-1"
                 >
                   <div className="pr-3">
-                    <p className="font-semibold text-slate-200 line-clamp-1">
+                    <p className="font-semibold text-gray-900 line-clamp-1">
                       {item.product_title}
                     </p>
-                    <p className="text-slate-400 font-mono">
+                    <p className="text-gray-500">
                       Rs. {Number(item.price).toLocaleString()} × {item.quantity}
                     </p>
                   </div>
-                  <span className="font-bold text-white font-mono">
+                  <span className="font-bold text-gray-900 font-mono">
                     Rs. {Number(item.total).toLocaleString()}
                   </span>
                 </div>
               ))}
             </div>
 
-            <div className="space-y-2 pt-3 border-t border-white/[0.08] text-xs text-slate-400">
+            <div className="space-y-2 pt-3 border-t border-gray-200 text-xs text-gray-600">
               <div className="flex justify-between">
                 <span>Total Items</span>
-                <span className="text-white font-medium">{cart.total_quantity}</span>
+                <span className="text-gray-900 font-medium">{cart.total_quantity}</span>
               </div>
               <div className="flex justify-between">
                 <span>Insured Nationwide Delivery</span>
-                <span className="text-emerald-400 font-bold font-mono">FREE (TCS)</span>
+                <span className="text-emerald-600 font-bold font-mono">FREE (TCS)</span>
               </div>
-              <div className="flex justify-between text-base font-extrabold text-white pt-3 border-t border-white/[0.08]">
+              <div className="flex justify-between text-base font-extrabold text-gray-900 pt-3 border-t border-gray-200">
                 <span>Grand Total</span>
-                <span className="text-cyan-400 font-mono font-bold">
+                <span className="text-gray-900 font-mono font-bold">
                   Rs. {Number(cart.total_price).toLocaleString()} PKR
                 </span>
               </div>
@@ -439,7 +439,7 @@ const CheckoutPage = () => {
                 type="button"
                 onClick={handleInitiateOrder}
                 disabled={submitting || addresses.length === 0}
-                className="w-full mt-6 py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-sm rounded-xl transition shadow-lg shadow-cyan-500/20 active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2"
+                className="w-full mt-6 py-3.5 bg-gray-900 hover:bg-black text-white font-semibold text-sm rounded-xl transition shadow-xs active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2"
               >
                 {submitting ? (
                   <>
@@ -458,9 +458,9 @@ const CheckoutPage = () => {
             )}
 
             {/* Security Guarantee Box */}
-            <div className="mt-5 p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] text-[11px] text-slate-400 flex items-center gap-2.5">
+            <div className="mt-5 p-3 rounded-xl bg-gray-50 border border-gray-200 text-[11px] text-gray-600 flex items-center gap-2.5">
               <svg
-                className="w-4 h-4 text-emerald-400 shrink-0"
+                className="w-4 h-4 text-emerald-600 shrink-0"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"

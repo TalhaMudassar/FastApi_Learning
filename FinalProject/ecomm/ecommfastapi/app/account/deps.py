@@ -48,3 +48,6 @@ async def require_admin(user: User = Depends(get_current_user)) -> User:
             detail="Admin access required"
         )
     return user
+
+
+

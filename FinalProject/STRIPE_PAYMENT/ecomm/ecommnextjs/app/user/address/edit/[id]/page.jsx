@@ -93,36 +93,36 @@ const EditAddress = ({ params }) => {
   if (pageLoading) {
     return (
       <div className="min-h-[40vh] flex flex-col items-center justify-center gap-3">
-        <div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-xs font-mono text-slate-400">Loading destination details...</p>
+        <div className="w-8 h-8 border-3 border-gray-200 border-t-gray-900 rounded-full animate-spin"></div>
+        <p className="text-xs text-gray-500">Loading address details...</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-2xl mx-auto bg-[#181c28] p-8 rounded-2xl shadow-2xl border border-white/10 text-slate-100">
-      <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/[0.08]">
+    <div className="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-xs border border-gray-200 text-gray-900">
+      <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
         <div>
-          <h1 className="text-lg font-bold text-white">Edit Delivery Destination</h1>
-          <p className="text-xs text-slate-400 mt-0.5 font-mono">Update registered courier dispatch coordinates</p>
+          <h1 className="text-lg font-bold text-gray-900">Edit Address</h1>
+          <p className="text-xs text-gray-500 mt-0.5">Update registered shipping details</p>
         </div>
         <Link
           href="/user/address"
-          className="text-xs font-mono text-slate-400 hover:text-white underline transition"
+          className="text-xs text-gray-500 hover:text-gray-900 underline transition"
         >
           ← Cancel
         </Link>
       </div>
 
       {error && (
-        <div className="mb-6 p-3.5 rounded-xl bg-rose-950/60 border border-rose-500/30 text-xs text-rose-300 font-mono">
+        <div className="mb-6 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700">
           {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
             Full Name *
           </label>
           <input
@@ -130,13 +130,13 @@ const EditAddress = ({ params }) => {
             name="name"
             value={form.name}
             onChange={handleChange}
-            className="w-full px-3.5 py-2.5 bg-[#141824] border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500 transition"
+            className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs text-gray-900 focus:bg-white focus:outline-none focus:border-gray-900 transition"
             required
           />
         </div>
 
         <div>
-          <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
             Phone Number *
           </label>
           <input
@@ -144,13 +144,13 @@ const EditAddress = ({ params }) => {
             name="phone_number"
             value={form.phone_number}
             onChange={handleChange}
-            className="w-full px-3.5 py-2.5 bg-[#141824] border border-white/10 rounded-xl text-xs text-white font-mono focus:outline-none focus:border-cyan-500 transition"
+            className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs text-gray-900 font-mono focus:bg-white focus:outline-none focus:border-gray-900 transition"
             required
           />
         </div>
 
         <div>
-          <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
             Address Line 1 *
           </label>
           <input
@@ -158,13 +158,13 @@ const EditAddress = ({ params }) => {
             name="address_line1"
             value={form.address_line1}
             onChange={handleChange}
-            className="w-full px-3.5 py-2.5 bg-[#141824] border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500 transition"
+            className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs text-gray-900 focus:bg-white focus:outline-none focus:border-gray-900 transition"
             required
           />
         </div>
 
         <div>
-          <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
             Address Line 2 (Optional)
           </label>
           <input
@@ -172,13 +172,13 @@ const EditAddress = ({ params }) => {
             name="address_line2"
             value={form.address_line2}
             onChange={handleChange}
-            className="w-full px-3.5 py-2.5 bg-[#141824] border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500 transition"
+            className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs text-gray-900 focus:bg-white focus:outline-none focus:border-gray-900 transition"
           />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
               City *
             </label>
             <input
@@ -186,13 +186,13 @@ const EditAddress = ({ params }) => {
               name="city"
               value={form.city}
               onChange={handleChange}
-              className="w-full px-3.5 py-2.5 bg-[#141824] border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500 transition"
+              className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs text-gray-900 focus:bg-white focus:outline-none focus:border-gray-900 transition"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
               State / Province *
             </label>
             <input
@@ -200,7 +200,7 @@ const EditAddress = ({ params }) => {
               name="state"
               value={form.state}
               onChange={handleChange}
-              className="w-full px-3.5 py-2.5 bg-[#141824] border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500 transition"
+              className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs text-gray-900 focus:bg-white focus:outline-none focus:border-gray-900 transition"
               required
             />
           </div>
@@ -208,7 +208,7 @@ const EditAddress = ({ params }) => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
               Postal Code *
             </label>
             <input
@@ -216,13 +216,13 @@ const EditAddress = ({ params }) => {
               name="pin_code"
               value={form.pin_code}
               onChange={handleChange}
-              className="w-full px-3.5 py-2.5 bg-[#141824] border border-white/10 rounded-xl text-xs text-white font-mono focus:outline-none focus:border-cyan-500 transition"
+              className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs text-gray-900 font-mono focus:bg-white focus:outline-none focus:border-gray-900 transition"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-1">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1">
               Country *
             </label>
             <input
@@ -230,25 +230,25 @@ const EditAddress = ({ params }) => {
               name="country"
               value={form.country}
               onChange={handleChange}
-              className="w-full px-3.5 py-2.5 bg-[#141824] border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500 transition"
+              className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs text-gray-900 focus:bg-white focus:outline-none focus:border-gray-900 transition"
               required
             />
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/[0.08]">
+        <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
           <Link
             href="/user/address"
-            className="px-5 py-2.5 text-xs font-mono text-slate-400 hover:text-white transition"
+            className="px-5 py-2.5 text-xs text-gray-600 hover:text-gray-900 transition"
           >
             Cancel
           </Link>
           <button
             type="submit"
             disabled={submitting}
-            className="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-xs rounded-xl active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed transition shadow-lg shadow-cyan-500/20 cursor-pointer"
+            className="px-6 py-2.5 bg-gray-900 hover:bg-black text-white font-semibold text-xs rounded-xl active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed transition shadow-xs cursor-pointer"
           >
-            {submitting ? 'Updating...' : 'Update Destination'}
+            {submitting ? 'Updating...' : 'Update Address'}
           </button>
         </div>
       </form>

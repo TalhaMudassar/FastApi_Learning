@@ -10,8 +10,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="dark">
-      <body className="min-h-screen flex flex-col font-sans bg-[#11141d] text-slate-100 antialiased selection:bg-cyan-500 selection:text-black ambient-glow">
+    <html lang="en">
+      <body className="min-h-screen flex flex-col font-sans bg-slate-50 text-slate-900 antialiased selection:bg-blue-600 selection:text-white">
         <AuthProvider>
           <Navbar />
           <main className="flex-grow container mx-auto px-4 sm:px-6 py-6">

@@ -54,9 +54,10 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Register new user, dispatch verification email, and navigate to login
   const register = async (data) => {
     await api.post("/api/account/register", data);
-    router.push("/login");
+    router.push("/login?registered=true");
   };
 
   useEffect(() => {

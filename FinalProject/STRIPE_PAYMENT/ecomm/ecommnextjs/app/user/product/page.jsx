@@ -32,7 +32,7 @@ export default function ProductList() {
   }, [page]);
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to permanently delete this product?')) {
+    if (!window.confirm('Are you sure you want to delete this product?')) {
       return;
     }
 
@@ -57,44 +57,44 @@ export default function ProductList() {
 
   return (
     <AdminOnly>
-      <div className="max-w-6xl mx-auto space-y-6 text-slate-100">
+      <div className="max-w-6xl mx-auto space-y-6 text-gray-900">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/[0.08]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-200">
           <div>
-            <h1 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-              <span>Product Inventory Catalog</span>
+            <h1 className="text-xl font-bold tracking-tight text-gray-900 flex items-center gap-2">
+              <span>Product Inventory</span>
             </h1>
-            <p className="text-xs text-slate-400 mt-0.5 font-mono">
-              Manage store hardware catalog, stock levels, and PKR pricing
+            <p className="text-xs text-gray-500 mt-0.5">
+              Manage store products, stock levels, and PKR pricing
             </p>
           </div>
           <Link
             href="/user/product/create"
-            className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-semibold rounded-xl transition shadow-lg shadow-cyan-500/20 self-start sm:self-auto"
+            className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-gray-900 hover:bg-black text-white text-xs font-semibold rounded-xl transition shadow-xs self-start sm:self-auto"
           >
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4v16m8-8H4" />
             </svg>
-            <span>Add Hardware Item</span>
+            <span>Add Product</span>
           </Link>
         </div>
 
         {/* Product Items */}
         {loading ? (
           <div className="min-h-[40vh] flex flex-col items-center justify-center gap-3">
-            <div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-xs font-mono text-slate-400">Loading catalog items...</p>
+            <div className="w-8 h-8 border-2 border-gray-900 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-xs text-gray-500 font-mono">Loading products...</p>
           </div>
         ) : products.length === 0 ? (
-          <div className="bg-[#181c28] border border-white/10 rounded-2xl p-12 text-center shadow-2xl">
-            <div className="w-12 h-12 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-cyan-400 mx-auto mb-3">
+          <div className="bg-white border border-gray-200 rounded-2xl p-12 text-center shadow-xs">
+            <div className="w-12 h-12 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-600 mx-auto mb-3">
               <LaptopIcon className="w-6 h-6" />
             </div>
-            <p className="text-sm font-semibold text-white">No products found</p>
-            <p className="text-xs text-slate-400 mt-1 mb-5 font-mono">Start by provisioning your first hardware listing.</p>
+            <p className="text-sm font-semibold text-gray-900">No products found</p>
+            <p className="text-xs text-gray-500 mt-1 mb-5">Start by creating your first product listing.</p>
             <Link
               href="/user/product/create"
-              className="inline-block px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-semibold rounded-xl transition shadow-lg shadow-cyan-500/20"
+              className="inline-block px-5 py-2.5 bg-gray-900 hover:bg-black text-white text-xs font-semibold rounded-xl transition shadow-xs"
             >
               Create Product
             </Link>
@@ -107,10 +107,10 @@ export default function ProductList() {
               return (
                 <div
                   key={product.id}
-                  className="bg-[#181c28] border border-white/10 rounded-2xl p-5 shadow-2xl hover:border-white/20 transition flex flex-col sm:flex-row items-start sm:items-center gap-4"
+                  className="bg-white border border-gray-200 rounded-2xl p-5 shadow-xs hover:border-gray-300 transition flex flex-col sm:flex-row items-start sm:items-center gap-4"
                 >
                   {/* Thumbnail */}
-                  <div className="w-20 h-20 rounded-xl overflow-hidden bg-[#11141d] flex-shrink-0 border border-white/[0.08]">
+                  <div className="w-20 h-20 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0 border border-gray-200">
                     {imageUrl ? (
                       <img
                         src={imageUrl}
@@ -121,8 +121,8 @@ export default function ProductList() {
                         }}
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-600">
-                        <LaptopIcon className="w-6 h-6 text-slate-500" />
+                      <div className="w-full h-full flex items-center justify-center text-gray-400">
+                        <LaptopIcon className="w-6 h-6 text-gray-400" />
                       </div>
                     )}
                   </div>
@@ -130,28 +130,28 @@ export default function ProductList() {
                   {/* Details */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <h2 className="font-bold text-white text-sm truncate">
+                      <h2 className="font-bold text-gray-900 text-sm truncate">
                         {product.title}
                       </h2>
-                      <span className="text-[10px] font-mono bg-white/[0.06] text-slate-300 border border-white/10 px-2 py-0.5 rounded">
+                      <span className="text-[10px] font-mono bg-gray-100 text-gray-700 border border-gray-200 px-2 py-0.5 rounded">
                         #{product.id}
                       </span>
                     </div>
 
-                    <p className="text-xs text-slate-400 mt-1 line-clamp-2">
+                    <p className="text-xs text-gray-500 mt-1 line-clamp-2">
                       {product.description}
                     </p>
 
-                    <div className="flex flex-wrap items-center gap-3 mt-2 text-xs font-medium text-slate-300">
-                      <span className="text-cyan-400 font-bold font-mono">
+                    <div className="flex flex-wrap items-center gap-3 mt-2 text-xs font-medium text-gray-700">
+                      <span className="text-gray-900 font-bold font-mono">
                         Rs. {Number(product.price).toLocaleString()} PKR
                       </span>
-                      <span className="text-slate-600">•</span>
+                      <span className="text-gray-300">•</span>
                       <span>
                         Stock:{' '}
                         <strong
                           className={
-                            product.stock_quantity > 0 ? 'text-emerald-400' : 'text-rose-400'
+                            product.stock_quantity > 0 ? 'text-emerald-600' : 'text-rose-600'
                           }
                         >
                           {product.stock_quantity}
@@ -160,12 +160,12 @@ export default function ProductList() {
 
                       {product.categories && product.categories.length > 0 && (
                         <>
-                          <span className="text-slate-600">•</span>
+                          <span className="text-gray-300">•</span>
                           <div className="flex flex-wrap gap-1">
                             {product.categories.map((cat) => (
                               <span
                                 key={cat.id}
-                                className="bg-white/[0.05] text-slate-300 border border-white/10 px-2 py-0.5 rounded text-[10px] font-mono"
+                                className="bg-gray-100 text-gray-700 border border-gray-200 px-2 py-0.5 rounded text-[10px]"
                               >
                                 {cat.name}
                               </span>
@@ -177,10 +177,10 @@ export default function ProductList() {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex sm:flex-col items-center gap-2 w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-white/[0.08]">
+                  <div className="flex sm:flex-col items-center gap-2 w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-gray-100">
                     <Link
                       href={`/user/product/edit/${product.slug}`}
-                      className="flex-1 sm:flex-initial text-center px-4 py-1.5 text-xs font-semibold rounded-lg bg-white/[0.06] hover:bg-white/[0.1] text-slate-200 border border-white/10 transition"
+                      className="flex-1 sm:flex-initial text-center px-4 py-1.5 text-xs font-semibold rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-300 transition"
                     >
                       Edit
                     </Link>
@@ -188,7 +188,7 @@ export default function ProductList() {
                       type="button"
                       onClick={() => handleDelete(product.id)}
                       disabled={deletingId === product.id}
-                      className="flex-1 sm:flex-initial px-4 py-1.5 text-xs font-semibold rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/20 disabled:opacity-50 transition cursor-pointer"
+                      className="flex-1 sm:flex-initial px-4 py-1.5 text-xs font-semibold rounded-lg bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 disabled:opacity-50 transition cursor-pointer"
                     >
                       {deletingId === product.id ? 'Deleting...' : 'Delete'}
                     </button>
@@ -201,21 +201,21 @@ export default function ProductList() {
 
         {/* Pagination Bar */}
         {products.length > 0 && totalPages > 1 && (
-          <div className="flex items-center justify-between pt-4 border-t border-white/[0.08] text-xs">
+          <div className="flex items-center justify-between pt-4 border-t border-gray-200 text-xs">
             <button
               onClick={() => setPage((prev) => Math.max(1, prev - 1))}
               disabled={page === 1 || loading}
-              className="px-4 py-2 bg-white/[0.04] border border-white/10 rounded-xl font-semibold text-slate-300 hover:bg-white/[0.08] hover:text-white disabled:opacity-40 transition shadow-sm cursor-pointer"
+              className="px-4 py-2 bg-white border border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-40 transition shadow-xs cursor-pointer"
             >
               ← Previous
             </button>
-            <span className="font-medium text-slate-400 font-mono">
-              Page <strong className="text-white">{page}</strong> of {totalPages}
+            <span className="font-medium text-gray-500 font-mono">
+              Page <strong className="text-gray-900">{page}</strong> of {totalPages}
             </span>
             <button
               onClick={() => setPage((prev) => Math.min(totalPages, prev + 1))}
               disabled={page === totalPages || loading}
-              className="px-4 py-2 bg-white/[0.04] border border-white/10 rounded-xl font-semibold text-slate-300 hover:bg-white/[0.08] hover:text-white disabled:opacity-40 transition shadow-sm cursor-pointer"
+              className="px-4 py-2 bg-white border border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-40 transition shadow-xs cursor-pointer"
             >
               Next →
             </button>
