@@ -1,0 +1,23 @@
+# Environments & Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+test_*.db
+sqlite.db
+
+# Media & Uploads
+media/*
+!media/.gitkeep

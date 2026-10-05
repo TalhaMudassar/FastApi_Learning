@@ -1,0 +1,2 @@
+selectinload() is an eager loading strategy in SQLAlchemy used to efficiently load related objects (Product.categories) with fewer SQL queries.
+
